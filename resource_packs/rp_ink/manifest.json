@@ -1,0 +1,29 @@
+{
+	"format_version": 2,
+	"header": {
+		"name": "bp_ink",
+		"description": "bp_ink Resource Pack",
+		"uuid": "9f83ed42-7765-d3ff-5785-d0e44c66e590",
+		"version": [1, 0, 0],
+		"min_engine_version": [1, 16, 0]
+	},
+	"metadata": {
+		"generated_with": {
+			"blockbench_block_wizard": ["1.5.1"]
+		}
+	},
+	"modules": [
+		{
+			"description": "bp_ink",
+			"type": "resources",
+			"uuid": "1e6f9148-88ea-02c3-991a-99467cd210e0",
+			"version": [1, 0, 0]
+		}
+	],
+	"dependencies": [
+		{
+			"uuid": "13c53da6-a61e-3bef-c53c-6025cc659de6",
+			"version": [1, 0, 0]
+		}
+	]
+}

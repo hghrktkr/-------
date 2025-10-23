@@ -1,0 +1,29 @@
+{
+	"format_version": 2,
+	"header": {
+		"name": "bp_ink",
+		"description": "bp_ink Behavior Pack",
+		"uuid": "13c53da6-a61e-3bef-c53c-6025cc659de6",
+		"version": [1, 0, 0],
+		"min_engine_version": [1, 16, 0]
+	},
+	"metadata": {
+		"generated_with": {
+			"blockbench_block_wizard": ["1.5.1"]
+		}
+	},
+	"modules": [
+		{
+			"description": "Behavior",
+			"version": [1, 0, 0],
+			"uuid": "366d2855-3f2f-31f2-d2c4-1d3b27ece9a4",
+			"type": "data"
+		}
+	],
+	"dependencies": [
+		{
+			"uuid": "9f83ed42-7765-d3ff-5785-d0e44c66e590",
+			"version": [1, 0, 0]
+		}
+	]
+}
