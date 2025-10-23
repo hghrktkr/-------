@@ -7,11 +7,9 @@
       "is_summonable": false,
       "is_experimental": false,
       "animations": {
-        "item_restriction": "controller.animation.item_restriction"
       },
       "scripts": {
         "animate": [
-          "item_restriction"
         ]
       }
     },
