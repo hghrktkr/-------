@@ -1,6 +1,7 @@
 import { GameMode, system } from "@minecraft/server";
 import { TitleToPlayer } from "../utils/helpers";
 import { playerSpawnPosition } from "../configs/playerConfig";
+import { scoreWeight } from "../configs/scoreConfig";
 
 export class GamePlayer {
     constructor(player) {
@@ -16,9 +17,9 @@ export class GamePlayer {
         this.isRespawning = false;      //  復活中か
 
         // 個人スコア
-        this.paintScore = 0;
+        this.paintBlockCount = 0;
         this.killCount = 0;
-        this.deaths = 0;
+        this.deathCount = 0;
         this.totalScore = 0;
 
         // 一時的な状態
@@ -43,13 +44,15 @@ export class GamePlayer {
 
     onDeath() {
         this.isAlive = false;
-        this.deaths++;
+        this.deathCount++;
         this.respawn();
     }
 
     respawn() {
         this.isRespawning = true;
-        this.player.runCommand(`inputpermission set @s movement disabled`);
+        if(this.player?.isValid) {
+            this.player.runCommand(`inputpermission set @s movement disabled`);
+        }
 
         let count = 3;
         const interval = system.runInterval(() => {
@@ -71,5 +74,15 @@ export class GamePlayer {
             this.player.runCommand("particle minecraft:totem_particle ~ ~1 ~");
             TitleToPlayer(this.player, "§aスタート！");
         }, 20 * 3);
+    }
+
+    score() {
+        const {paintScoreWeight, killScoreWeight, deathPenaltyWeight} = scoreWeight;
+        const paintScore = this.paintBlockCount * paintScoreWeight;
+        const killScore = this.killCount * killScoreWeight;
+        const deathPenalty = this.deathCount * deathPenaltyWeight;
+        this.totalScore = paintScore + killScore + deathPenalty;
+
+        return {paintScore, killScore, deathPenalty, totalScore: this.totalScore};
     }
 }
