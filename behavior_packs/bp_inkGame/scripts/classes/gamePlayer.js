@@ -30,12 +30,6 @@ export class GamePlayer {
         this.onSpawn();
     }
 
-    /** 足元のブロックの種類が自チームのインクの色か確認 */
-    checkInInk() {
-        const block = this.player.dimension.getBlockBelow(this.player.location);
-        this.isInInk = block?.typeId === this.teamColorBlockType;
-    }
-
     onSpawn() {
         this.player.setSpawnPoint(playerSpawnPosition.spawnPoint, playerSpawnPosition.spawnDimension);
         this.player.setGameMode(GameMode.Adventure);
@@ -75,6 +69,13 @@ export class GamePlayer {
             TitleToPlayer(this.player, "§aスタート！");
         }, 20 * 3);
     }
+    
+    /** 足元のブロックの種類が自チームのインクの色か確認 */
+    checkInInk() {
+        const block = this.player.dimension.getBlockBelow(this.player.location);
+        this.isInInk = block?.typeId === this.teamColorBlockType;
+    }
+
 
     score() {
         const {paintScoreWeight, killScoreWeight, deathPenaltyWeight} = scoreWeight;
