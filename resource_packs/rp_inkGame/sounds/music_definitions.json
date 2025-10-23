@@ -1,0 +1,7 @@
+{
+    "game_bgm" : {
+        "event_name": "music.game",
+        "max_delay": 180,
+        "min_delay": 60
+    }
+}

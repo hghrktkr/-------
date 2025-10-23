@@ -1,0 +1,80 @@
+{
+	"format_version" : "1.10.0",
+	"animation_controllers" : {
+		"controller.animation.item_restriction" : {
+			"initial_state" : "default",
+			"states" : {
+				"default" : {
+					"transitions" : [
+						{ "restriction_tnt" : "(query.get_equipped_item_name == 'tnt')"},
+						{ "restriction_dispenser" : "(query.get_equipped_item_name == 'dispenser')"},
+						{ "restriction_fishing_rod" : "(query.get_equipped_item_name == 'fishing_rod')"},
+						{ "restriction_end_portal_frame" : "(query.get_equipped_item_name == 'end_portal_frame')"},
+						{ "restriction_flint_and_steel" : "(query.get_equipped_item_name == 'flint_and_steel')"},
+						{ "restriction_wind_charge" : "(query.get_equipped_item_name == 'wind_charge')"}
+					]
+				},
+				"restriction_tnt" : {
+	                "on_entry": [],
+	                "on_exit": [
+                        "/say TNTはつかえません！",
+						"/clear @s tnt"
+                     ],
+					"transitions" : [
+						{ "default":"(1.0)"}
+					]
+				},
+				"restriction_dispenser" : {
+	                "on_entry": [],
+	                "on_exit": [
+                        "/say ディスペンサーはつかえません！",
+						"/clear @s dispenser"
+                     ],
+					"transitions" : [
+						{ "default":"(1.0)"}
+					]
+				},
+				"restriction_fishing_rod" : {
+	                "on_entry": [],
+	                "on_exit": [
+                        "/say 釣り竿はつかえません！",
+						"/clear @s fishing_rod"
+                     ],
+					"transitions" : [
+						{ "default":"(1.0)"}
+					]
+				},
+				"restriction_end_portal_frame" : {
+	                "on_entry": [],
+	                "on_exit": [
+                        "/say エンドポータルはつくれません！",
+						"/clear @s end_portal_frame"
+                     ],
+					"transitions" : [
+						{ "default":"(1.0)"}
+					]
+				},
+				"restriction_flint_and_steel" : {
+	                "on_entry": [],
+	                "on_exit": [
+						"/say 火打石はつかえません！",
+						"/clear @s flint_and_steel"
+					 ],
+					"transitions" : [
+						{ "default":"(1.0)"}
+					]
+				},
+				"restriction_wind_charge" : {
+	                "on_entry": [],
+	                "on_exit": [
+						"/say ウィンドチャージはつかえません！",
+						"/clear @s wind_charge"
+					 ],
+					"transitions" : [
+						{ "default":"(1.0)"}
+					]
+				}
+			}
+		}
+	}
+}

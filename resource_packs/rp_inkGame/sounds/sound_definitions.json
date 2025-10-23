@@ -1,0 +1,71 @@
+{
+    "format_version": "1.14.0",
+    "sound_definitions": {
+        "edu.game_bgm" :{
+            "category": "music",
+            "max_distance": null,
+            "min_distance": null,
+            "sounds": [
+                {
+                    "name": "sounds/custom/game_bgm",
+                    "load_on_low_memory": true,
+                    "stream": true,
+                    "is3D": false,
+                    "volume": 0.2
+                }
+            ]
+        },
+        "edu.beep": {
+            "category": "player",
+            "max_distance": null,
+            "min_distance": null,
+            "sounds": [
+                {
+                    "name":"sounds/custom/beep",
+                    "stream": true,
+                    "is3D": false,
+                    "volume": 0.4
+                }
+            ]
+        },
+        "edu.gong": {
+            "category": "player",
+            "max_distance": null,
+            "min_distance": null,
+            "sounds": [
+                {
+                    "name":"sounds/custom/gong",
+                    "stream": true,
+                    "is3D": false,
+                    "volume": 0.4
+                }
+            ]
+        },
+        "edu.correct": {
+            "category": "player",
+            "max_distance": null,
+            "min_distance": null,
+            "sounds": [
+                {
+                    "name":"sounds/custom/correct",
+                    "stream": true,
+                    "is3D": false,
+                    "volume": 0.4
+                }
+            ]
+        },
+        "edu.incorrect": {
+            "category": "player",
+            "max_distance": null,
+            "min_distance": null,
+            "sounds": [
+                {
+                    "name":"sounds/custom/incorrect",
+                    "stream": true,
+                    "is3D": false,
+                    "volume": 0.4
+                }
+            ]
+        }
+    }
+}

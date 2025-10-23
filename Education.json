@@ -1,0 +1,10 @@
+{
+    "commands" : {
+		"hiddenFromPlayer" : ["*"],
+		"hiddenFromAutomation": ["!setblock","!agent","!replaceitem","!give","!execute"]
+    },
+    "codebuilder":{
+		"defaulturi":"https://minecraft.makecode.com/#tutorial:65105-36680-60662-44859&lockedEditor=1&ipc=1&norunonx=1#editor",
+		"disableLegacyTitleBar": true
+	}
+}
