@@ -11,7 +11,7 @@ export class GamePlayer {
 
         // 状態
         this.team = null;               // チーム←TeamManager
-        this.teamColorBlockType = null; // チームのブロックの色
+        this.teamColorBlockType = null; // チームのブロックの色のブロック（エンティティ）名
         this.isAlive = true;
         this.isInInk = false;           // 自チームのインクの上にいるか
         this.isRespawning = false;      //  復活中か
@@ -33,6 +33,12 @@ export class GamePlayer {
     onSpawn() {
         this.player.setSpawnPoint(playerSpawnPosition.spawnPoint, playerSpawnPosition.spawnDimension);
         this.player.setGameMode(GameMode.Adventure);
+    }
+
+    /** チームカラー、インクのタイプを設定 */
+    setTeam(teamColor, blockType) {
+        this.team = teamColor;
+        this.teamColorBlockType = blockType;
     }
 
 
