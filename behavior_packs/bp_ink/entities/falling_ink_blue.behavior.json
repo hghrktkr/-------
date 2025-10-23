@@ -7,16 +7,66 @@
 			"is_summonable": true,
 			"is_experimental": false
 		},
+		"component_groups": {
+			"edu:despawn": {
+				"minecraft:instant_despawn": {
+					"remove_child_entities": false
+				}
+			}
+		},
 		"components": {
 			"minecraft:physics": {
 				"has_gravity": true,
 				"has_collision": true
+			},
+			"minecraft:default_look_angle": {
+				"value": 0
+			},
+			"minecraft:body_rotation_blocked": {},
+			"minecraft:damage_sensor": {
+				"triggers": [
+					{
+						"cause": "all",
+						"deals_damage": "no"
+					}
+				]
+			},
+			"minecraft:environment_sensor": {
+				"triggers": [
+					{
+						"event": "change_to_block",
+						"filters": {
+							"all_of": [
+								{
+									"test": "on_ground",
+									"operator": "==",
+									"value": true
+								},
+								{
+									"test": "in_water",
+									"operator": "!=",
+									"value": true
+								}
+							]
+						}
+					}
+				]
 			},
 			"minecraft:pushable": {
 				"is_pushable": false
 			},
 			"minecraft:push_through": {
 				"value": 1
+			}
+		},
+		"events": {
+			"change_to_block": {
+				"add": {
+					"component_groups": [
+						"edu:despawn"
+					]
+				},
+				"queue_command": {"command": "setblock ~~~ edu:ink_blue"}
 			}
 		}
 	}
