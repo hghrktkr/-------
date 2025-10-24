@@ -49,6 +49,16 @@
 								}
 							]
 						}
+					},
+					{
+						"event": "despawn",
+						"filters": [
+							{
+								"test": "in_water",
+								"operator": "==",
+								"value": true
+							}
+						]
 					}
 				]
 			},
@@ -67,6 +77,13 @@
 					]
 				},
 				"queue_command": {"command": "setblock ~~~ edu:ink_yellow"}
+			},
+			"despawn": {
+				"add": {
+					"component_groups": [
+						"edu:despawn"
+					]
+				}
 			}
 		}
 	}
