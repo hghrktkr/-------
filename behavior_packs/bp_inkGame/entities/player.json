@@ -7,9 +7,11 @@
       "is_summonable": false,
       "is_experimental": false,
       "animations": {
+        "sneaking_sensor": "controller.animation.sneaking_sensor"
       },
       "scripts": {
         "animate": [
+          "sneaking_sensor"
         ]
       }
     },
@@ -48,37 +50,6 @@
         },
         "minecraft:spell_effects": {
           "remove_effects": "bad_omen"
-        }
-      },
-      "edu:invincible": {
-        "minecraft:damage_sensor": {
-          "triggers": [
-            {
-              "cause": "all",
-              "damage_multiplier": 0.01,
-              "on_damage_sound_event": "item.shield.block"
-            }
-          ]
-        },
-        "minecraft:hurt_on_condition": {
-          "damage_conditions": [
-            {
-              "filters": { "test": "in_lava", "subject": "self", "operator": "==", "value": true },
-              "cause": "lava",
-              "damage_per_tick": 0
-            }
-          ]
-        }
-      },
-      "edu:normal": {      
-        "minecraft:hurt_on_condition": {
-          "damage_conditions": [
-            {
-              "filters": { "test": "in_lava", "subject": "self", "operator": "==", "value": true },
-              "cause": "lava",
-              "damage_per_tick": 4
-            }
-          ]
         }
       }
     },
@@ -231,35 +202,8 @@
           "component_groups": [ "minecraft:raid_trigger" ]
         }
       },
-      "minecraft:entity_spawned": {
-        "add": {
-          "component_groups": [
-            "edu:normal"
-          ]
-        }
-      },
-      "edu:start_invincible": {
-        "add": {
-          "component_groups":[ "edu:invincible" ]
-        },
-        "remove": {
-          "component_groups": [
-            "edu:normal"
-          ]
-        },
-        "queue_command": {"command": "say start invincible"}
-      },
-      "edu:end_invincible": {
-        "add": {
-          "component_groups": [
-            "edu:normal"
-          ]
-        },
-        "remove": {
-          "component_groups":[ "edu:invincible" ]
-        },
-        "queue_command": {"command": "say stop invincible"}
-      }
+      "start_sneaking":{},
+      "stop_sneaking":{}
     }
   }
 }
