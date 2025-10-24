@@ -1,0 +1,24 @@
+{
+	"format_version": "1.21.50",
+	"minecraft:block": {
+		"description": {
+			"identifier": "edu:ink_yellow"
+		},
+		"components": {
+			"minecraft:collision_box": false,
+			"minecraft:selection_box": false,
+			"minecraft:destructible_by_mining": false,
+			"minecraft:destructible_by_explosion": false,
+			"minecraft:geometry": "geometry.ink_blue",
+			"minecraft:material_instances": {
+				"*": {
+					"texture": "ink_yellow",
+					"render_method": "blend"
+				}
+			},
+			"minecraft:light_emission": 2,
+			"minecraft:light_dampening": 1,
+			"minecraft:map_color": "#ffd700"
+		}
+	}
+}

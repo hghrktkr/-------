@@ -1,0 +1,18 @@
+{
+	"format_version": "1.10.0",
+	"minecraft:client_entity": {
+		"description": {
+			"identifier": "edu:falling_ink_yellow",
+			"materials": {
+				"default": "entity_alphablend"
+			},
+			"textures": {
+				"default": "textures/blocks/ink_yellow"
+			},
+			"geometry": {
+				"default": "geometry.falling_ink_blue"
+			},
+			"render_controllers": ["controller.render.default"]
+		}
+	}
+}

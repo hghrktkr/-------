@@ -6,6 +6,9 @@
 	"texture_data": {
 		"ink_blue": {
 			"textures": "textures/blocks/ink_blue"
+		},
+		"ink_yellow": {
+			"textures": "textures/blocks/ink_yellow"
 		}
 	}
 }
