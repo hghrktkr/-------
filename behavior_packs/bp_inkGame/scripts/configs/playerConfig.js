@@ -6,13 +6,16 @@ export const playerSpawnPosition = {
     spawnDimension: "overworld"
 };
 
+/** チームごとの色・ブロックの設定 */
 export const teamConfig = {
     teamBlue: {
         teamColor: "blue",
-        teamColorBlockType: "edu:falling_ink_blue"
+        teamColorEntityType: "edu:falling_ink_blue",
+        teamColorBlockType: "edu:ink_blue",
     },
     teamYellow: {
         teamColor: "yellow",
-        teamColorBlockType: "edu:falling_ink_yellow"
+        teamColorEntityType: "edu:falling_ink_yellow",
+        teamColorBlockType: "edu:ink_yellow"
     }
 }
