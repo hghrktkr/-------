@@ -2,6 +2,7 @@ import { GameMode, system } from "@minecraft/server";
 import { TitleToPlayer } from "../utils/helpers";
 import { playerSpawnPosition } from "../configs/playerConfig";
 import { scoreWeight } from "../configs/scoreConfig";
+import LOCATION_UTILS from "../utils/locationUtils";
 
 /** プレイヤー情報 */
 export class GamePlayer {
@@ -93,6 +94,13 @@ export class GamePlayer {
         return this.currentInkAmount / this.maxInkAmount;
     }
 
+    /** 毎ティック更新処理 */
+    updatePerTick() {
+        this.checkIsSneaking();
+        this.checkInInk();
+        this.updateCurrentInkAmount();
+    }
+
     checkIsSneaking() {
         if(!this.isAlive) return;
         if(this.player.isSneaking) {
@@ -104,7 +112,8 @@ export class GamePlayer {
     
     /** 足元のブロックの種類が自チームのインクの色か確認 */
     checkInInk() {
-        const block = this.player.dimension.getBlock(this.player.location);
+        const playerPos = LOCATION_UTILS.toBlockPos(this.player.location);
+        const block = this.player.dimension.getBlock(playerPos);
         this.isInInk = block?.typeId === this.teamColorBlockType;
     }
 
@@ -127,6 +136,7 @@ export class GamePlayer {
         this.currentInkAmount = Math.min(this.currentInkAmount + currentReloadInkRate, this.maxInkAmount);
     }
 
+
     consumeInk(inkAmount) {
         if(!this.canShoot) return false;
         if(this.currentInkAmount >= inkAmount) {
@@ -135,6 +145,13 @@ export class GamePlayer {
         } else {
             return false;
         }
+    }
+
+    cooldown() {
+        this.canShoot = false;
+        system.runTimeout(() => {
+            this.canShoot = true;
+        }, 20 * 3);
     }
 
 
