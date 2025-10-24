@@ -1,3 +1,6 @@
+import { GamePlayer } from "../classes/gamePlayer";
+import { GameMode } from "@minecraft/server";
+
 class GamePlayerManager {
 
     constructor() {
@@ -26,7 +29,7 @@ class GamePlayerManager {
         this.gamePlayers.forEach((gamePlayer) => {
             if(gamePlayer.player.gameMode !== GameMode.Adventure) {
                 gamePlayer.player.setGameMode(GameMode.Adventure);
-                console.log(`Reset game mode for player ${gamePlayer.name} to Adventure.`);
+                // console.log(`Reset game mode for player ${gamePlayer.name} to Adventure.`);
             }
         });
     }
