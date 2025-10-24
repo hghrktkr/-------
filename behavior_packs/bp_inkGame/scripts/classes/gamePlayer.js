@@ -1,4 +1,4 @@
-import { GameMode, system } from "@minecraft/server";
+import { GameMode, system, world } from "@minecraft/server";
 import { TitleToPlayer } from "../utils/helpers";
 import { playerSpawnPosition } from "../configs/playerConfig";
 import { scoreWeight } from "../configs/scoreConfig";
@@ -41,7 +41,13 @@ export class GamePlayer {
     }
 
     onSpawn() {
-        this.player.setSpawnPoint(playerSpawnPosition.spawnPoint, playerSpawnPosition.spawnDimension);
+        const dimensionLocation = {
+            dimension: world.getDimension(playerSpawnPosition.spawnDimension),
+            x: playerSpawnPosition.spawnPoint.x,
+            y: playerSpawnPosition.spawnPoint.y,
+            z: playerSpawnPosition.spawnPoint.z
+        }
+        this.player.setSpawnPoint(dimensionLocation);
         this.player.setGameMode(GameMode.Adventure);
     }
 
@@ -50,6 +56,7 @@ export class GamePlayer {
         this.team = teamColor;
         this.teamColorEntityType = entityType;
         this.teamColorBlockType = blockType;
+        console.log(`${this.name} has joined team ${this.team}`);
     }
 
 
@@ -99,6 +106,8 @@ export class GamePlayer {
         this.checkIsSneaking();
         this.checkInInk();
         this.updateCurrentInkAmount();
+
+        // console.log(`[GamePlayer] ${this.name} - Ink: ${this.currentInkAmount.toFixed(2)}/${this.maxInkAmount}, InInk: ${this.isInInk}, Sneaking: ${this.isSneaking}`);
     }
 
     checkIsSneaking() {
