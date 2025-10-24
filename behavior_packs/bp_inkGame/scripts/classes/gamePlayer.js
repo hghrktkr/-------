@@ -3,6 +3,7 @@ import { TitleToPlayer } from "../utils/helpers";
 import { playerSpawnPosition } from "../configs/playerConfig";
 import { scoreWeight } from "../configs/scoreConfig";
 
+/** プレイヤー情報 */
 export class GamePlayer {
     constructor(player) {
         this.player = player;
@@ -16,6 +17,13 @@ export class GamePlayer {
         this.isAlive = true;
         this.isInInk = false;           // 自チームのインクの上にいるか
         this.isRespawning = false;      //  復活中か
+        this.isSneaking = false;
+        
+        // インク関連
+        this.canShoot = true;        // インクを撃てるか
+        this.currentInkAmount = 100;   // インクの量
+        this.maxInkAmount = 100;    // インクの最大量
+        this.reloadInkRate = 1;      // インクのリロード速度（1tickあたり）
 
         // 個人スコア
         this.paintBlockCount = 0;
@@ -46,7 +54,9 @@ export class GamePlayer {
 
     onDeath() {
         this.isAlive = false;
+        this.canShoot = false;
         this.deathCount++;
+        console.log(`${this.name} has died. Total deaths: ${this.deathCount}`);
         this.respawn();
     }
 
@@ -69,6 +79,7 @@ export class GamePlayer {
 
         system.runTimeout(() => {
             this.isAlive = true;
+            this.canShoot = true;
             this.isRespawning = false;
             this.player.runCommand(`inputpermission set @s movement enabled`);
 
@@ -77,11 +88,53 @@ export class GamePlayer {
             TitleToPlayer(this.player, "§aスタート！");
         }, 20 * 3);
     }
+
+    getInkRatio() {
+        return this.currentInkAmount / this.maxInkAmount;
+    }
+
+    checkIsSneaking() {
+        if(!this.isAlive) return;
+        if(this.player.isSneaking) {
+            this.isSneaking = true;
+        } else {
+            this.isSneaking = false;
+        }
+    }
     
     /** 足元のブロックの種類が自チームのインクの色か確認 */
     checkInInk() {
-        const block = this.player.dimension.getBlockBelow(this.player.location);
+        const block = this.player.dimension.getBlock(this.player.location);
         this.isInInk = block?.typeId === this.teamColorBlockType;
+    }
+
+    updateCurrentInkAmount() {
+        let currentReloadInkRate = this.reloadInkRate;
+
+        if(this.isSneaking && this.isInInk) {
+            currentReloadInkRate *= 2; // スニーク中はリロード速度2倍
+        }
+        else if(this.isSneaking && !this.isInInk) {
+            currentReloadInkRate *= 0.5; // スニーク中でインク外はリロード速度半分
+        }
+        else if(!this.isSneaking && this.isInInk) {
+            currentReloadInkRate *= 1.0; // インク内はリロード速度1.0倍
+        }
+        else {
+            currentReloadInkRate = 0; // どれでもない場合は回復しない
+        }
+
+        this.currentInkAmount = Math.min(this.currentInkAmount + currentReloadInkRate, this.maxInkAmount);
+    }
+
+    consumeInk(inkAmount) {
+        if(!this.canShoot) return false;
+        if(this.currentInkAmount >= inkAmount) {
+            this.currentInkAmount -= inkAmount;
+            return true;
+        } else {
+            return false;
+        }
     }
 
 

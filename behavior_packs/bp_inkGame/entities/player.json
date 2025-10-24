@@ -6,13 +6,9 @@
       "is_spawnable": false,
       "is_summonable": false,
       "is_experimental": false,
-      "animations": {
-        "sneaking_sensor": "controller.animation.sneaking_sensor"
-      },
+      "animations": {},
       "scripts": {
-        "animate": [
-          "sneaking_sensor"
-        ]
+        "animate": []
       }
     },
 
@@ -201,9 +197,7 @@
         "remove": {
           "component_groups": [ "minecraft:raid_trigger" ]
         }
-      },
-      "start_sneaking":{},
-      "stop_sneaking":{}
+      }
     }
   }
 }
