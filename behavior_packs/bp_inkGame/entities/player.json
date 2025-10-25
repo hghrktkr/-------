@@ -68,9 +68,6 @@
       },
       "minecraft:can_climb": {
       },
-      "minecraft:movement": {
-        "value": 0.1
-      },
       "minecraft:attack": {
         "damage": 20
       },
@@ -113,6 +110,9 @@
       },
       "minecraft:physics": {
         "push_towards_closest_space": true
+      },
+      "minecraft:movement": {
+          "value": 0.1
       },
       "minecraft:pushable": {
         "is_pushable": false,

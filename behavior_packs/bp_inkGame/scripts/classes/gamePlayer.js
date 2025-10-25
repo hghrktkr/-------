@@ -19,6 +19,7 @@ export class GamePlayer {
         this.isInInk = false;           // 自チームのインクの上にいるか
         this.isRespawning = false;      //  復活中か
         this.isSneaking = false;
+        this.hasFlag = false;          // フラッグを持っているか
         
         // インク関連
         this.canShoot = true;        // インクを撃てるか
@@ -106,8 +107,10 @@ export class GamePlayer {
         this.checkIsSneaking();
         this.checkInInk();
         this.updateCurrentInkAmount();
+        this.sprintSpeedMultiplier();
 
         // console.log(`[GamePlayer] ${this.name} - Ink: ${this.currentInkAmount.toFixed(2)}/${this.maxInkAmount}, InInk: ${this.isInInk}, Sneaking: ${this.isSneaking}`);
+        // console.log(`[GamePlayer] ${this.name} - Effects: ${JSON.stringify(this.player.getEffects())}`);
     }
 
     checkIsSneaking() {
@@ -145,6 +148,20 @@ export class GamePlayer {
         this.currentInkAmount = Math.min(this.currentInkAmount + currentReloadInkRate, this.maxInkAmount);
     }
 
+    sprintSpeedMultiplier() {
+        // 旗がある場合は最優先で速度低下
+        if(this.hasFlag) {
+            if(this.isSpeedUp) {
+                this.isSpeedUp = false;
+            }
+            this.player.addEffect("slowness", 1, { amplifier: 1, showParticles: false });
+            return;
+        }
+        if(this.isInInk && this.player.isSprinting) {
+            this.player.addEffect("speed", 2, { amplifier: 1, showParticles: false });
+        }
+    }
+
 
     consumeInk(inkAmount) {
         if(!this.canShoot) return false;
@@ -160,6 +177,7 @@ export class GamePlayer {
         this.canShoot = false;
         system.runTimeout(() => {
             this.canShoot = true;
+            this.player.sendMessage("リロード完了！");
         }, 20 * 3);
     }
 
