@@ -1,10 +1,10 @@
 import { system } from "@minecraft/server";
 
 class InkGun {
-    constructor(inkGunConfig = {}) {
-        this.knockback = inkGunConfig.knockback ?? 1;
-        this.range = inkGunConfig.range ?? 7;
-        this.consumeInkAmount = inkGunConfig.consumeInkAmount ?? 10;
+    constructor(config = {}) {
+        this.knockback = config.knockback ?? 1;
+        this.range = config.range ?? 7;
+        this.consumeInkAmount = config.consumeInkAmount ?? 10;
         this.isShooting = false;
     }
 
@@ -63,4 +63,10 @@ class InkGun {
     }
 }
 
-export const inkGun = new InkGun();
+export const inkGun = new InkGun(
+    {
+        knockback: 1,
+        range: 7,
+        consumeInkAmount: 10
+    }
+);
