@@ -1,0 +1,18 @@
+{
+	"format_version": "1.8.0",
+	"animations": {
+		"animation.player.right_arm_track_head": {
+			"loop": true,
+			"animation_length": 0.5,
+			"bones": {
+				"rightArm": {
+					"rotation": [
+						"math.clamp(query.target_x_rotation, -60, 60) - 80",
+						"math.clamp(query.target_y_rotation, -60, 60)",
+						0
+					]
+				}
+			}
+		}
+	}
+}
