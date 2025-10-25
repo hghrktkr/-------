@@ -2,9 +2,9 @@ import { system } from "@minecraft/server";
 
 class InkGun {
     constructor(config = {}) {
-        this.knockback = config.knockback ?? 1;
-        this.range = config.range ?? 7;
-        this.consumeInkAmount = config.consumeInkAmount ?? 10;
+        this.knockback = config.knockback;
+        this.range = config.range;
+        this.consumeInkAmount = config.consumeInkAmount;
         this.isShooting = false;
     }
 
