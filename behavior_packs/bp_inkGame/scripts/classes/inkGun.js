@@ -22,8 +22,8 @@ class InkGun {
         const dir = gamePlayer.player.getViewDirection();
         const playerPos = gamePlayer.player.location;
         const startPos = {
-            x: playerPos.x + dir.x,
-            y: playerPos.y + Math.max(0, dir.y),    // 地面より下にスポーンしないように調整
+            x: playerPos.x + dir.x + 0.5,
+            y: playerPos.y + Math.max(0, dir.y) + 0.7,    // 地面より下にスポーンしないように調整
             z: playerPos.z + dir.z
         }
         console.log(`[InkGun] ${gamePlayer.name} is shooting ink gun from (${startPos.x.toFixed(2)}, ${startPos.y.toFixed(2)}, ${startPos.z.toFixed(2)}) in direction (${dir.x.toFixed(2)}, ${dir.y.toFixed(2)}, ${dir.z.toFixed(2)})`);
