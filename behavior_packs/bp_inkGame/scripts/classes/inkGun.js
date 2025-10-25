@@ -1,11 +1,11 @@
 import { system } from "@minecraft/server";
 
 class InkGun {
-    constructor() {
+    constructor(inkGunConfig = {}) {
+        this.knockback = inkGunConfig.knockback ?? 1;
+        this.range = inkGunConfig.range ?? 7;
+        this.consumeInkAmount = inkGunConfig.consumeInkAmount ?? 10;
         this.isShooting = false;
-        this.knockback = 1;
-        this.range = 7;
-        this.consumeInkAmount = 10;
     }
 
     shoot(gamePlayer) {
