@@ -1,5 +1,11 @@
 {
 	"texture_data": {
+		"bib_blue": {
+			"textures": "textures/items/bib_blue.png"
+		},
+		"bib_yellow": {
+			"textures": "textures/items/bib_yellow.png"
+		},
 		"ink_gun": {
 			"textures": "textures/items/ink_gun.png"
 		}

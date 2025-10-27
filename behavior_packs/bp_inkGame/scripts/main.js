@@ -32,7 +32,7 @@ world.afterEvents.entityDie.subscribe(ev => {
 
 
 
-// 2秒ごとにチェック
+// 毎tickチェック
 system.runInterval(() => {
     // ゲームモード・ゲームルールの監視
     gamePlayerManager.checkPlayerGameMode();

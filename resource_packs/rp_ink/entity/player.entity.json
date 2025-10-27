@@ -39,7 +39,7 @@
           "variable.riding_y_offset = query.is_riding_any_entity_of_type('minecraft:minecart', 'minecraft:boat', 'minecraft:chest_boat', 'minecraft:strider') ? -3.0 : 0.0;"
         ],
         "animate": [
-          {"track_head": "!variable.is_first_person && q.is_item_name_any('slot.weapon.mainhand', 'edu:ink_gun') == 1"},
+          {"track_head": "!variable.is_first_person && q.is_item_name_any('slot.weapon.mainhand', 0, 'edu:ink_gun') == 1"},
           "root"
         ]
       },
