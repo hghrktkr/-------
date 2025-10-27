@@ -5,6 +5,7 @@ class InkGun {
         this.knockback = config.knockback;
         this.range = config.range;
         this.consumeInkAmount = config.consumeInkAmount;
+        this.damage = config.damage;
         this.isShooting = false;
     }
 
@@ -53,6 +54,10 @@ class InkGun {
 
             gamePlayer.player.dimension.spawnEntity(gamePlayer.teamColorEntityType, spawnPos);
 
+            // 敵プレイヤーに当たったかチェック
+            this.checkHitEnemy(gamePlayer, spawnPos);
+            
+
         }, 1);
 
         // gamePlayerのインクが0になったらcooldownを開始
@@ -61,12 +66,57 @@ class InkGun {
             gamePlayer.cooldown();
         }
     }
+
+    /** 敵プレイヤーへの命中判定 */
+    checkHitEnemy(gamePlayer, position) {
+        const players = gamePlayer.player.dimension.getPlayers();
+
+        for (const p of players) {
+            if (p.id === gamePlayer.player.id) continue; // 自分は除外
+
+            const victimGamePlayer = gamePlayerManager.gamePlayers.get(p.id);
+            if (!victimGamePlayer) continue;
+
+            // 同じチームならスキップ
+            if (
+                (gamePlayerManager.BlueTeamPlayers.has(gamePlayer) && gamePlayerManager.BlueTeamPlayers.has(victimGamePlayer)) ||
+                (gamePlayerManager.YellowTeamPlayers.has(gamePlayer) && gamePlayerManager.YellowTeamPlayers.has(victimGamePlayer))
+            ) continue;
+
+            // 命中距離判定
+            const victimPos = p.location;
+            const dx = victimPos.x - position.x;
+            const dy = victimPos.y - position.y;
+            const dz = victimPos.z - position.z;
+            const distance = Math.sqrt(dx * dx + dy * dy + dz * dz);
+
+            if (distance < 1.2) { // 命中判定距離
+                this.onHitEnemy(p, gamePlayer);
+                break;
+            }
+        }
+    }
+
+    /** 命中時処理（ダメージ、ノックバックなど） */
+    onHitEnemy(victim, attackerGamePlayer) {
+        const dir = attackerGamePlayer.player.getViewDirection();
+        const knockbackVec = new Vector(dir.x * this.knockback, 0.3, dir.z * this.knockback);
+
+        victim.applyKnockback(knockbackVec.x, knockbackVec.z, this.knockback, 0.3);
+        victim.applyDamage(this.damage);
+
+        attackerGamePlayer.player.sendMessage(`🎯 ${victim.name} に命中！`);
+        victim.sendMessage(`💥 ${attackerGamePlayer.name} の攻撃を受けた！`);
+    }
+
+    
 }
 
 export const inkGun = new InkGun(
     {
         knockback: 1,
         range: 7,
-        consumeInkAmount: 10
+        consumeInkAmount: 10,
+        damage: 5
     }
 );
