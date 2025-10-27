@@ -29,7 +29,6 @@ export class GamePlayer {
 
         // 個人スコア
         this.paintBlockCount = 0;
-        this.killCount = 0;
         this.deathCount = 0;
         this.totalScore = 0;
 
@@ -183,12 +182,11 @@ export class GamePlayer {
 
 
     score() {
-        const {paintScoreWeight, killScoreWeight, deathPenaltyWeight} = scoreWeight;
+        const {paintScoreWeight, deathPenaltyWeight} = scoreWeight;
         const paintScore = this.paintBlockCount * paintScoreWeight;
-        const killScore = this.killCount * killScoreWeight;
         const deathPenalty = this.deathCount * deathPenaltyWeight;
-        this.totalScore = paintScore + killScore + deathPenalty;
+        this.totalScore = paintScore + deathPenalty;
 
-        return {paintScore, killScore, deathPenalty, totalScore: this.totalScore};
+        return {paintScore, deathPenalty, totalScore: this.totalScore};
     }
 }
