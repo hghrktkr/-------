@@ -1,7 +1,8 @@
-import { GameMode, system, world } from "@minecraft/server";
-import { TitleToPlayer } from "../utils/helpers";
+import { BlockVolume, GameMode, ItemStack, system, world } from "@minecraft/server";
+import { broadcastChat, TitleToPlayer } from "../utils/helpers";
 import { playerSpawnPosition } from "../configs/playerConfig";
 import { scoreWeight } from "../configs/scoreConfig";
+import { gamePlayerManager } from "../managers/gamePlayerManager";
 import LOCATION_UTILS from "../utils/locationUtils";
 
 /** プレイヤー情報 */
@@ -128,6 +129,44 @@ export class GamePlayer {
         this.isInInk = block?.typeId === this.teamColorBlockType;
     }
 
+    onGetFlag() {
+        if(this.hasFlag) return;
+        this.hasFlag = true;
+        const teamPlayers = this.team === "blue" ? gamePlayerManager.BlueTeamPlayers : gamePlayerManager.YellowTeamPlayers;
+        const otherTeamPlayers = this.team === "blue" ? gamePlayerManager.YellowTeamPlayers : gamePlayerManager.BlueTeamPlayers;
+
+        teamPlayers.forEach(teamPlayer => {
+            teamPlayer.sendMessage(`§b${this.name}§fが§eフラッグ§fをとりました！`);
+            if(teamPlayer.id === this.id) {
+                this.player.sendMessage('攻撃されずにもちかえろう！');
+                return;
+            }
+            else {
+                teamPlayer.sendMessage(`§b${teamPlayer.name}§fが攻撃されないよう守ろう！`);
+            }
+        });
+        otherTeamPlayers.forEach(teamPlayer => {
+            teamPlayer.sendMessage(`§b${this.name}§fが§eフラッグ§fをとりました！攻撃して奪い返そう！`);
+        });
+    }
+
+    onDropFlag() {
+        if(!this.hasFlag) return;
+        this.hasFlag = false;
+        broadcastChat(`§b${this.name}§fが§eフラッグ§fを落とした！`);
+
+        this.player.dimension.setBlockType(this.player.location, "edu:flag");
+
+        // インベントリからedu:flagを削除
+        const container = this.player.getComponent("minecraft:inventory").container
+        const flag = new ItemStack("edu:flag", 1);
+        const slot = container.find(flag);
+        if(slot !== undefined) {
+            container.setItem(slot, null);
+        }
+        
+    }
+
     updateCurrentInkAmount() {
         let currentReloadInkRate = this.reloadInkRate;
 
@@ -153,11 +192,11 @@ export class GamePlayer {
             if(this.isSpeedUp) {
                 this.isSpeedUp = false;
             }
-            this.player.addEffect("slowness", 1, { amplifier: 1, showParticles: false });
+            this.player.addEffect("slowness", 1, { amplifier: 2, showParticles: false });
             return;
         }
         if(this.isInInk && this.player.isSprinting) {
-            this.player.addEffect("speed", 2, { amplifier: 1, showParticles: false });
+            this.player.addEffect("speed", 2, { amplifier: 2, showParticles: false });
         }
     }
 
