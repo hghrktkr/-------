@@ -107,8 +107,7 @@ const LOCATION_UTILS = (() => {
      * @returns {boolean} 範囲内か
      */
     function isWithinRange(entity, targetPos, range) {
-        // entity.location がなければ position コンポーネントから取得
-        const entityPos = entity.location || entity.getComponent("minecraft:position").position;
+        const entityPos = entity.location;
         return distance(entityPos, targetPos) <= range;
     }
 
