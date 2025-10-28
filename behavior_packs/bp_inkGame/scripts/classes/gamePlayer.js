@@ -4,6 +4,7 @@ import { playerSpawnPosition } from "../configs/playerConfig";
 import { scoreWeight } from "../configs/scoreConfig";
 import { gamePlayerManager } from "../managers/gamePlayerManager";
 import LOCATION_UTILS from "../utils/locationUtils";
+import { flagManager } from "../managers/flagManager";
 
 /** プレイヤー情報 */
 export class GamePlayer {
@@ -133,7 +134,7 @@ export class GamePlayer {
 
     checkOutOfInk() {
         if(!this.isInInk && this.hasFlag) {
-            this.onDamagedDropFlag();
+            flagManager.onDamagedDropFlag(this);
         }
     }
 
@@ -150,43 +151,6 @@ export class GamePlayer {
             }
             this.player.spawnParticle("minecraft:magic_critical_hit_emitter", loc);
         }
-    }
-
-    onGetFlag() {
-        if(this.hasFlag) return;
-        const teamPlayers = this.team === "blue" ? gamePlayerManager.BlueTeamPlayers : gamePlayerManager.YellowTeamPlayers;
-        const otherTeamPlayers = this.team === "blue" ? gamePlayerManager.YellowTeamPlayers : gamePlayerManager.BlueTeamPlayers;
-
-        teamPlayers.forEach(teamPlayer => {
-            teamPlayer.player.sendMessage(`§b${this.name}§fが§eフラッグ§fをとりました！`);
-            if(teamPlayer.id === this.id) {
-                this.player.sendMessage('攻撃されずにもちかえろう！');
-                return;
-            }
-            else {
-                teamPlayer.player.sendMessage(`§b${teamPlayer.name}§fが攻撃されないよう守ろう！`);
-            }
-        });
-        otherTeamPlayers.forEach(teamPlayer => {
-            teamPlayer.player.sendMessage(`§b${this.name}§fが§eフラッグ§fをとりました！攻撃して奪い返そう！`);
-        });
-    }
-
-    onDamagedDropFlag() {
-        if(!this.hasFlag) return;
-        this.hasFlag = false;
-        broadcastChat(`§b${this.name}§fが§eフラッグ§fを落とした！`);
-
-        this.player.dimension.setBlockType(this.player.location, "edu:flag");
-
-        // インベントリからedu:flagを削除
-        const container = this.player.getComponent("minecraft:inventory").container
-        const flag = new ItemStack("edu:flag", 1);
-        const slot = container.find(flag);
-        if(slot !== undefined) {
-            container.setItem(slot, null);
-        }
-        
     }
 
     updateCurrentInkAmount() {
