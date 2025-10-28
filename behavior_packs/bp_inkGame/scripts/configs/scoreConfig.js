@@ -1,4 +1,5 @@
 export const scoreWeight = {
-    paintScoreWeight: 5,
+    flagScoreWeight: 20,
+    inkScoreWeight: 5,
     deathPenaltyWeight: -5
 }
