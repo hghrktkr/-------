@@ -106,6 +106,8 @@ export class GamePlayer {
     updatePerTick() {
         this.checkIsSneaking();
         this.checkInInk();
+        this.checkOutOfInk();
+        this.checkHasFlag();
         this.updateCurrentInkAmount();
         this.sprintSpeedMultiplier();
 
@@ -129,28 +131,48 @@ export class GamePlayer {
         this.isInInk = block?.typeId === this.teamColorBlockType;
     }
 
+    checkOutOfInk() {
+        if(!this.isInInk && this.hasFlag) {
+            this.onDamagedDropFlag();
+        }
+    }
+
+    checkHasFlag() {
+        const container = this.player.getComponent("minecraft:inventory").container;
+        const flag = new ItemStack("edu:flag", 1);
+        const slot = container.find(flag);
+        this.hasFlag = slot !== undefined;
+        if(this.hasFlag) {
+            const loc = {
+                x: this.player.location.x,
+                y: this.player.location.y + 1.5,
+                z: this.player.location.z
+            }
+            this.player.spawnParticle("minecraft:magic_critical_hit_emitter", loc);
+        }
+    }
+
     onGetFlag() {
         if(this.hasFlag) return;
-        this.hasFlag = true;
         const teamPlayers = this.team === "blue" ? gamePlayerManager.BlueTeamPlayers : gamePlayerManager.YellowTeamPlayers;
         const otherTeamPlayers = this.team === "blue" ? gamePlayerManager.YellowTeamPlayers : gamePlayerManager.BlueTeamPlayers;
 
         teamPlayers.forEach(teamPlayer => {
-            teamPlayer.sendMessage(`§b${this.name}§fが§eフラッグ§fをとりました！`);
+            teamPlayer.player.sendMessage(`§b${this.name}§fが§eフラッグ§fをとりました！`);
             if(teamPlayer.id === this.id) {
                 this.player.sendMessage('攻撃されずにもちかえろう！');
                 return;
             }
             else {
-                teamPlayer.sendMessage(`§b${teamPlayer.name}§fが攻撃されないよう守ろう！`);
+                teamPlayer.player.sendMessage(`§b${teamPlayer.name}§fが攻撃されないよう守ろう！`);
             }
         });
         otherTeamPlayers.forEach(teamPlayer => {
-            teamPlayer.sendMessage(`§b${this.name}§fが§eフラッグ§fをとりました！攻撃して奪い返そう！`);
+            teamPlayer.player.sendMessage(`§b${this.name}§fが§eフラッグ§fをとりました！攻撃して奪い返そう！`);
         });
     }
 
-    onDropFlag() {
+    onDamagedDropFlag() {
         if(!this.hasFlag) return;
         this.hasFlag = false;
         broadcastChat(`§b${this.name}§fが§eフラッグ§fを落とした！`);
@@ -192,11 +214,12 @@ export class GamePlayer {
             if(this.isSpeedUp) {
                 this.isSpeedUp = false;
             }
-            this.player.addEffect("slowness", 1, { amplifier: 2, showParticles: false });
+            this.player.addEffect("slowness", 1, { amplifier: 3, showParticles: false });
             return;
         }
         if(this.isInInk && this.player.isSprinting) {
             this.player.addEffect("speed", 2, { amplifier: 2, showParticles: false });
+            this.player.addEffect("jump_boost", 1, { amplifier: 3, showParticles: false });
         }
     }
 
