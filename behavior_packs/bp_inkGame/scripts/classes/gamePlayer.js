@@ -24,7 +24,7 @@ export class GamePlayer {
         this.hasFlag = false;          // フラッグを持っているか
         
         // インク関連
-        this.canShoot = true;        // インクを撃てるか
+        this.canShoot = false;        // インクを撃てるか
         this.currentInkAmount = 100;   // インクの量
         this.maxInkAmount = 100;    // インクの最大量
         this.reloadInkRate = 1;      // インクのリロード速度（1tickあたり）
