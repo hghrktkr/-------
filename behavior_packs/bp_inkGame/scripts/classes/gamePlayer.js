@@ -30,9 +30,7 @@ export class GamePlayer {
         this.reloadInkRate = 1;      // インクのリロード速度（1tickあたり）
 
         // 個人スコア
-        this.paintBlockCount = 0;
         this.deathCount = 0;
-        this.totalScore = 0;
 
         // 一時的な状態
         this.lastLocation = player.location;
@@ -88,6 +86,7 @@ export class GamePlayer {
         }, 20);
 
         system.runTimeout(() => {
+            this.isRespawning = false;
             this.isAlive = true;
             this.canShoot = true;
             this.isRespawning = false;
@@ -206,13 +205,4 @@ export class GamePlayer {
         }, 20 * 3);
     }
 
-
-    score() {
-        const {paintScoreWeight, deathPenaltyWeight} = scoreWeight;
-        const paintScore = this.paintBlockCount * paintScoreWeight;
-        const deathPenalty = this.deathCount * deathPenaltyWeight;
-        this.totalScore = paintScore + deathPenalty;
-
-        return {paintScore, deathPenalty, totalScore: this.totalScore};
-    }
 }
