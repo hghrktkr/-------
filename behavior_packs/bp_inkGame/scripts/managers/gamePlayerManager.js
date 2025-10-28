@@ -82,6 +82,15 @@ class GamePlayerManager {
         console.log(`Gave Ink Gun to player ${gamePlayer.name}.`);
     }
 
+    teleportTeamPlayers() {
+        this.BlueTeamPlayers.forEach(blueTeamPlayer => {
+            blueTeamPlayer.player.teleport(teamConfig.teamBlue.teamSpawnPos);
+        });
+        this.YellowTeamPlayers.forEach(yellowTeamPlayer => {
+            yellowTeamPlayer.player.teleport(teamConfig.teamYellow.teamSpawnPos);
+        });
+    }
+
 
 }
 
