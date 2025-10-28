@@ -91,7 +91,7 @@ class InkGun {
             const distance = Math.sqrt(dx * dx + dy * dy + dz * dz);
 
             if (distance < 1.2) { // 命中判定距離
-                victimGamePlayer.onDamagedDropFlag();
+                p.onDamagedDropFlag();
                 this.onHitEnemy(p, gamePlayer);
                 break;
             }
