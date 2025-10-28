@@ -1,6 +1,7 @@
 import { GamePlayer } from "../classes/gamePlayer";
 import { EquipmentSlot, GameMode, ItemLockMode, ItemStack } from "@minecraft/server";
 import { teamConfig } from "../configs/playerConfig";
+import { scoreWeight } from "../configs/scoreConfig";
 
 class GamePlayerManager {
 
@@ -8,6 +9,10 @@ class GamePlayerManager {
         this.gamePlayers = new Map();
         this.BlueTeamPlayers = new Set();
         this.YellowTeamPlayers = new Set();
+        this.deathScore = {
+            blue: 0,
+            yellow: 0
+        }
     }
  
     addGamePlayer(player) {
@@ -22,8 +27,16 @@ class GamePlayerManager {
         const gamePlayer = this.gamePlayers.get(deadEntityId);
         if(gamePlayer) {
             gamePlayer.onDeath();
+            this.deathScore[gamePlayer.team]++;
             console.log(`Player ${gamePlayer.name} has died.`);
         }
+    }
+
+    getDeathScore() {
+        return {
+            blue: this.deathScore.blue * scoreWeight.deathPenaltyWeight,
+            yellow: this.deathScore.yellow * scoreWeight.deathPenaltyWeight
+        };
     }
 
     checkPlayerGameMode() {
