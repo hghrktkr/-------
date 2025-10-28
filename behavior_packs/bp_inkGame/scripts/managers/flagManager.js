@@ -32,19 +32,18 @@ class FlagManager {
     }
 
     checkFlagHolderInOwnArea() {
-        if(this.flagHolder == null) return;
+        if (!this.flagHolder) return false;
 
-        const player = this.flagHolder.player;
-        const start = gamePlayerManager.BlueTeamPlayers.has(this.flagHolder) ? teamConfig.teamBlue.teamAreaStart : teamConfig.teamYellow.teamAreaStart;
-        const end = gamePlayerManager.BlueTeamPlayers.has(this.flagHolder) ? teamConfig.teamBlue.teamAreaEnd : teamConfig.teamYellow.teamAreaEnd;
-        let center = {
-            x: (start.x + end.x) / 2,
-            y: (start.y + end.y) / 2,
-            z: (start.z + end.z) / 2,
-        }
-        center = LOCATION_UTILS.toBlockPos(center);
+        const { player, team } = this.flagHolder;
+        const teamArea = team === "blue" ? teamConfig.teamBlue : teamConfig.teamYellow;
 
-        return (LOCATION_UTILS.isWithinRange(player, center, 3));
+        const center = LOCATION_UTILS.toBlockPos({
+            x: (teamArea.teamAreaStart.x + teamArea.teamAreaEnd.x) / 2,
+            y: (teamArea.teamAreaStart.y + teamArea.teamAreaEnd.y) / 2,
+            z: (teamArea.teamAreaStart.z + teamArea.teamAreaEnd.z) / 2,
+        });
+
+        return LOCATION_UTILS.isWithinRange(player, center, 3);
     }
     
     onGetFlag(gamePlayer) {
