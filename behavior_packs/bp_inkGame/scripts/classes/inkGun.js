@@ -1,4 +1,5 @@
 import { system } from "@minecraft/server";
+import { flagManager } from "../managers/flagManager";
 
 class InkGun {
     constructor(config = {}) {
@@ -91,7 +92,7 @@ class InkGun {
             const distance = Math.sqrt(dx * dx + dy * dy + dz * dz);
 
             if (distance < 1.2) { // 命中判定距離
-                p.onDamagedDropFlag();
+                flagManager.onDamagedDropFlag(p);
                 this.onHitEnemy(p, gamePlayer);
                 break;
             }
