@@ -104,6 +104,14 @@ class GamePlayerManager {
         });
     }
 
+    setCanShootTrue() {
+        this.gamePlayers.forEach(gamePlayer => gamePlayer.canShoot = true);
+    }
+
+    setCanShootFalse() {
+        this.gamePlayers.forEach(gamePlayer => gamePlayer.canShoot = false);
+    }
+
 
 }
 
