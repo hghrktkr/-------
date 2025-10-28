@@ -28,8 +28,8 @@ class FlagManager {
                 }
                 this.flagHolder = gamePlayer;
             }
+        }
     }
-}
 
     checkFlagHolderInOwnArea() {
         if(this.flagHolder == null) return;
@@ -37,7 +37,7 @@ class FlagManager {
         const player = this.flagHolder.player;
         const start = gamePlayerManager.BlueTeamPlayers.has(this.flagHolder) ? teamConfig.teamBlue.teamAreaStart : teamConfig.teamYellow.teamAreaStart;
         const end = gamePlayerManager.BlueTeamPlayers.has(this.flagHolder) ? teamConfig.teamBlue.teamAreaEnd : teamConfig.teamYellow.teamAreaEnd;
-        const center = {
+        let center = {
             x: (start.x + end.x) / 2,
             y: (start.y + end.y) / 2,
             z: (start.z + end.z) / 2,
@@ -57,7 +57,6 @@ class FlagManager {
             teamPlayer.player.sendMessage(`§b${gamePlayer.name}§fが§eフラッグ§fをとりました！`);
             if(teamPlayer.id === gamePlayer.id) {
                 gamePlayer.player.sendMessage('攻撃されずにもちかえろう！');
-                return;
             }
             else {
                 teamPlayer.player.sendMessage(`§b${teamPlayer.name}§fが攻撃されないよう守ろう！`);
