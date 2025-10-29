@@ -81,7 +81,8 @@ class InkGun {
             // 同じチームならスキップ
             if (
                 (gamePlayerManager.BlueTeamPlayers.has(gamePlayer) && gamePlayerManager.BlueTeamPlayers.has(victimGamePlayer)) ||
-                (gamePlayerManager.YellowTeamPlayers.has(gamePlayer) && gamePlayerManager.YellowTeamPlayers.has(victimGamePlayer))
+                (gamePlayerManager.YellowTeamPlayers.has(gamePlayer) && gamePlayerManager.YellowTeamPlayers.has(victimGamePlayer)) ||
+                victimGamePlayer.isRespawning   // リスポーン中も除外
             ) continue;
 
             // 命中距離判定
