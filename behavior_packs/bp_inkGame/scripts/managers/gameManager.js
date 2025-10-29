@@ -21,11 +21,6 @@ class GameManager {
         this.yellowScore = 0;
     }
 
-    prepareGame() {
-        // 各チームへの振り分け
-
-    }
-
     async startGame() {
         if(this.gameState !== "PREPARE") return;
 

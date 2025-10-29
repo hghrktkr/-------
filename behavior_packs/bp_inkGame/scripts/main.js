@@ -56,7 +56,7 @@ system.runInterval(() => {
 }, 10);
 
 
-
+// ゲーム中のインベントリチェック
 world.afterEvents.playerInventoryItemChange.subscribe((ev) => {
     const { player, itemStack } = ev;
 
