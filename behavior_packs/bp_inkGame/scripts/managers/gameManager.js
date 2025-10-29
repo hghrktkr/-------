@@ -1,4 +1,4 @@
-import { GameRules, system, world } from "@minecraft/server";
+import { Difficulty, GameRules, system, world } from "@minecraft/server";
 import { flagConfig } from "../configs/flagConfig";
 import { broadcastTitle } from "../utils/helpers";
 import { flagManager } from "./flagManager";
@@ -77,6 +77,7 @@ class GameManager {
         }
 
         flagManager.checkFlagHolder();
+        flagManager.checkBlockOnFlag();
 
     }
 
@@ -105,6 +106,7 @@ class GameManager {
         if(this.gameState !== "RESET") return;
         gamePlayerManager.reset();
         inkManager.reset();
+        flagManager.reset();
         this.inkScores = null;
         this.deathScores = null;
         this.blueScore = 0;
@@ -174,6 +176,8 @@ class GameManager {
                 GameRules[gameRule] = value;
             }
         }
+
+        world.setDifficulty(Difficulty.Peaceful);
     }
 }
 

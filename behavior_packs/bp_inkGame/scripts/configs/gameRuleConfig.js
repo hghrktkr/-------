@@ -24,7 +24,7 @@ export const gameRuleConfig = {
     maxCommandChainLength: 0   // コマンドチェーンの最大長（数値指定推奨）
 }
 
-export const gameDifficulty = "normal"
+export const gameDifficulty = "peaceful"
 
 // 読み込む範囲
 export const tickingArea = {
