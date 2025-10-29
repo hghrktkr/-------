@@ -53,7 +53,7 @@ system.runInterval(() => {
     for(const gamePlayer of gamePlayerManager.gamePlayers.values()) {
         gamePlayer.updatePerTick();
     }
-}, 1);
+}, 10);
 
 
 
