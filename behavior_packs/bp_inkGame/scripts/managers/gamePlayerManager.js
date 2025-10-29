@@ -1,5 +1,5 @@
 import { GamePlayer } from "../classes/gamePlayer";
-import { EquipmentSlot, GameMode, ItemLockMode, ItemStack } from "@minecraft/server";
+import { EquipmentSlot, GameMode, ItemLockMode, ItemStack, world } from "@minecraft/server";
 import { teamConfig } from "../configs/playerConfig";
 import { scoreWeight } from "../configs/scoreConfig";
 
@@ -141,7 +141,7 @@ class GamePlayerManager {
 
     setPlayerSpawnPoint(gamePlayer, dimension, location) {
         const dimLoc = {
-            dimension: dimension,
+            dimension: world.getDimension(dimension),
             x: location.x,
             y: location.y,
             z: location.z
