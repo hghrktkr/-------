@@ -1,27 +1,36 @@
 // Minecraftで実行
 // main.js
-import { ItemLockMode, ItemStack, system, world } from "@minecraft/server";
-import { gamePlayerManager } from "./managers/gamePlayerManager.js";
+import { system, world } from "@minecraft/server";
 import { inkGun } from "./classes/inkGun.js";
 import { flagManager } from "./managers/flagManager.js";
 import { gameManager } from "./managers/gameManager.js";
+import { gamePlayerManager } from "./managers/gamePlayerManager.js";
+import { npcManager } from "./managers/npcManager.js";
+import { npcConfigs } from "./configs/npcConfig.js";
+
+
 
 // ワールド読み込み時
 world.afterEvents.worldLoad.subscribe(ev => {
     console.log("World loaded.");
+
+    for (const [, config] of Object.entries(npcConfigs)) {
+        npcManager.registerNPC(config.id, config);
+    }
+    system.runTimeout(() => {
+        npcManager.spawnAllNPCs();
+    }, 20 * 2);
 });
 
 
-
+// プレイヤーがスポーンしたとき
 world.afterEvents.playerSpawn.subscribe(ev => {
     const { player } = ev;
+
+    if(gameManager.gameState === "PLAYING" && gamePlayerManager.gamePlayers.has(player.id)) return;
+    
     console.log(`Player spawned: ${player.name} (${player.id})`);
     gamePlayerManager.addGamePlayer(player);
-
-    const gamePlayer = gamePlayerManager.gamePlayers.get(player.id);
-    if(gamePlayer) {
-        gamePlayerManager.addBlueTeamPlayer(gamePlayer);
-    }
 });
 
 
@@ -39,7 +48,7 @@ world.afterEvents.entityDie.subscribe(ev => {
 // 毎tickチェック
 system.runInterval(() => {
     // ゲームモード・ゲームルールの監視
-    if(gameManager.gameState !== "PLAYING")　return;
+    if(gameManager.gameState !== "PLAYING") return;
     gamePlayerManager.checkPlayerGameMode();
     for(const gamePlayer of gamePlayerManager.gamePlayers.values()) {
         gamePlayer.updatePerTick();
@@ -63,7 +72,20 @@ world.afterEvents.playerInventoryItemChange.subscribe((ev) => {
 // プレイヤーがエンティティをインタラクトした時
 world.beforeEvents.playerInteractWithEntity.subscribe((ev) => {
     const {player, target} = ev;    // player: プレイヤー、target: インタラクトしたNPC
-    ev.cancel = true;
+    console.log(`player[${player.nameTag}] interacted entity[${target.nameTag}]`);
+
+    // typeIdがedu:game_masterのNPCだけ反応するように
+    if (target.typeId !== "edu:game_master") return;
+
+    // NPCのnameTag（表示名）でどの設定に対応するかを探す
+    const npcConfig = [...npcManager.npcConfigs.values()].find(
+        cfg => cfg.nameTag === target.nameTag
+    );
+
+    if (!npcConfig) return; // 対応する設定がなければ何もしない
+
+    ev.cancel = true; // NPCのデフォルト挙動を止める
+    npcManager.handleInteraction(player, npcConfig.id); // 対話イベントを発火
 
 });
 
