@@ -130,7 +130,7 @@ export class GamePlayer {
     }
 
     checkOutOfInk() {
-        if(!this.isInInk && this.hasFlag) {
+        if(!this.isInInk && this.hasFlag && !this.player.isJumping) {
             flagManager.onDamagedDropFlag(this);
         }
     }
