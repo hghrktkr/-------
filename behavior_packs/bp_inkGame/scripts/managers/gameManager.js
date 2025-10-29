@@ -73,7 +73,7 @@ class GameManager {
             this.endGame(flagHoldTeam);
         }
 
-        if(this.timer !== 0 && this.timer !== this.maxGameTime && this.timer % 1200 === 0) {
+        if(this.timer !== 0 && this.timer !== this.maxGameTime && this.timer % 60 === 0) {
             inkManager.updateInkCount();
             // 全体へ表示
             const currentInkCounts = inkManager.getInkCount();
