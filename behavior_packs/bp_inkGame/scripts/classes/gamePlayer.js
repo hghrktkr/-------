@@ -136,10 +136,10 @@ export class GamePlayer {
     }
 
     checkHasFlag() {
-        const container = this.player.getComponent("minecraft:inventory").container;
-        const flag = new ItemStack("edu:flag", 1);
-        const slot = container.find(flag);
-        this.hasFlag = slot !== undefined;
+        // const container = this.player.getComponent("minecraft:inventory").container;
+        // const flag = new ItemStack("edu:flag", 1);
+        // const slot = container.find(flag);
+        // this.hasFlag = slot !== undefined;
         if(this.hasFlag) {
             const loc = {
                 x: this.player.location.x,

@@ -14,8 +14,8 @@ class FlagManager {
 
     spawnFlag() {
         const randomIndex = Math.floor(Math.random() * flagConfig.spawnPos.length);
-        const flag = world.getDimension(flagConfig.dimension).setBlockType(flagConfig.spawnPos[randomIndex], "edu:flag");
-        this.flagPos = flag.location;
+        world.getDimension(flagConfig.dimension).setBlockType(flagConfig.spawnPos[randomIndex], "edu:flag");
+        this.flagPos = flagConfig.spawnPos[randomIndex];
         broadcastTitle('フラッグしゅつげん！！', 'チームエリアに持っていこう');
     }
 
@@ -60,6 +60,7 @@ class FlagManager {
     onGetFlag(gamePlayer) {
         if(gamePlayer.hasFlag) return;
         this.flagHolder = gamePlayer;
+        gamePlayer.hasFlag = true;
         this.flagPos = null;
         const teamPlayers = gamePlayer.team === "blue" ? gamePlayerManager.BlueTeamPlayers : gamePlayerManager.YellowTeamPlayers;
         const otherTeamPlayers = gamePlayer.team === "blue" ? gamePlayerManager.YellowTeamPlayers : gamePlayerManager.BlueTeamPlayers;
@@ -84,8 +85,9 @@ class FlagManager {
         this.flagHolder = null;
         broadcastChat(`§b${gamePlayer.name}§fが§eフラッグ§fを落とした！`);
 
-        const flagBlock = gamePlayer.player.dimension.setBlockType(gamePlayer.player.location, "edu:flag");
-        this.flagPos = flagBlock.location;
+        const pos = gamePlayer.player.location;
+        gamePlayer.player.dimension.setBlockType(pos, "edu:flag");
+        this.flagPos = pos;
 
         // インベントリからedu:flagを削除
         const container = gamePlayer.player.getComponent("minecraft:inventory").container
@@ -99,10 +101,12 @@ class FlagManager {
 
     reset() {
         if(this.flagPos === null) return;
-        const block = world.getDimension("world").getBlock(this.flagPos);
+        const block = world.getDimension("overworld").getBlock(this.flagPos);
         if(block.typeId === "edu:flag") {
             block.setType("minecraft:air");
         }
+        this.flagHolder = null;
+        this.flagPos = null;
     }
 }
 
