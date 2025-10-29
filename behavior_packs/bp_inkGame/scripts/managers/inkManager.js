@@ -60,6 +60,37 @@ class InkManager {
             yellow: this.inkCount.yellow * scoreWeight.inkScoreWeight
         };
     }
+
+    reset() {
+        this.inkCount.blue = 0;
+        this.inkCount.yellow = 0;
+
+        const {dimension, from, to} = this.checkArea;
+        const dim = world.getDimension(dimension);
+
+        for(let x = from.x; x <= to.x; x++) {
+            for(let y = from.y; y <= to.y; y++) {
+                for(let z = from.z; z <= to.z; z++) {
+                    const block = dim.getBlock({x, y, z});
+                    if(!block) continue;
+
+                    switch (block.typeId) {
+                        case "edu:ink_blue":
+                            dim.setBlockType({x, y, z}, "minecraft:air");
+                            break;
+                        
+                        case "edu:ink_yellow":
+                            dim.setBlockType({x, y, z}, "minecraft:air");
+                            break;
+
+                        default:
+                            break;
+                    }
+                }
+            }
+        }
+
+    }
 }
 
 export const inkManager = new InkManager();

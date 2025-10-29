@@ -9,7 +9,7 @@ import { MessageFormData } from "@minecraft/server-ui";
 
 class GameManager {
     constructor() {
-        this.gameState = "PREPARE";  // PREPARE, PLAYING, END
+        this.gameState = "PREPARE";  // PREPARE, PLAYING, END, RESET
         this.timer = 0;
         this.maxGameTime = 180;
         this.flagSpawnTime = flagConfig.spawnTime;
@@ -77,7 +77,7 @@ class GameManager {
             inkManager.updateInkCount();
             // 全体へ表示
             const currentInkCounts = inkManager.getInkCount();
-            broadcastTitle(`§b青${currentInkCounts.blue}§f : §6黄${currentInkCounts.yellow}`);
+            broadcastTitle(`§b青チーム${currentInkCounts.blue}§f : §6黄チーム${currentInkCounts.yellow}`);
         }
 
         flagManager.checkFlagHolder();
@@ -100,7 +100,15 @@ class GameManager {
         // 結果表示
         system.runTimeout(() => {
             this.showResults(flagHoldTeam);
+            this.gameState = "RESET";
+            this.reset();
         }, 20 * 2);
+    }
+
+    reset() {
+        if(this.gameState !== "RESET") return;
+        gamePlayerManager.reset();
+        inkManager.reset();
     }
 
     calculateScores(flagHoldTeam) {
