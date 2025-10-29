@@ -96,7 +96,9 @@ class GameManager {
         this.calculateScores(flagHoldTeam);
 
         // 結果表示
-        this.showResults(flagHoldTeam);
+        system.runTimeout(() => {
+            this.showResults(flagHoldTeam);
+        }, 20 * 2);
     }
 
     calculateScores(flagHoldTeam) {
