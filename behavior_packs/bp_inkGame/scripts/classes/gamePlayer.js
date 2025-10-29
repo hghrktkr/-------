@@ -27,7 +27,7 @@ export class GamePlayer {
         this.canShoot = false;        // インクを撃てるか
         this.currentInkAmount = 100;   // インクの量
         this.maxInkAmount = 100;    // インクの最大量
-        this.reloadInkRate = 1;      // インクのリロード速度（1tickあたり）
+        this.reloadInkRate = 10;      // インクのリロード速度（1tickあたり）
 
         // 個人スコア
         this.deathCount = 0;
@@ -107,6 +107,7 @@ export class GamePlayer {
         this.checkHasFlag();
         this.updateCurrentInkAmount();
         this.sprintSpeedMultiplier();
+        this.showInkStatus();
 
         // console.log(`[GamePlayer] ${this.name} - Ink: ${this.currentInkAmount.toFixed(2)}/${this.maxInkAmount}, InInk: ${this.isInInk}, Sneaking: ${this.isSneaking}`);
         // console.log(`[GamePlayer] ${this.name} - Effects: ${JSON.stringify(this.player.getEffects())}`);
@@ -149,6 +150,25 @@ export class GamePlayer {
         }
     }
 
+    showInkStatus() {
+        const inkRatio = this.getInkRatio();
+        const barLength = 5; // バーの長さ
+        const filled = Math.round(inkRatio * barLength);
+        const empty = barLength - filled;
+
+        // 視覚的なゲージ表示（青い部分と灰色部分）
+        const bar = "§b" + "\ue102".repeat(filled) + "§7" + "".repeat(empty);
+
+        const percent = Math.floor(inkRatio * 100);
+        const text = `インク: ${bar} §f${percent}%`;
+
+        try {
+            this.player.onScreenDisplay.setActionBar(text);
+        } catch (e) {
+            console.warn(`[InkBar] ${this.name} に表示失敗: ${e}`);
+        }
+    }
+
     updateCurrentInkAmount() {
         let currentReloadInkRate = this.reloadInkRate;
 
@@ -174,12 +194,12 @@ export class GamePlayer {
             if(this.isSpeedUp) {
                 this.isSpeedUp = false;
             }
-            this.player.addEffect("slowness", 1, { amplifier: 3, showParticles: false });
+            this.player.addEffect("slowness", 10, { amplifier: 3, showParticles: false });
             return;
         }
-        if(this.isInInk && this.player.isSprinting) {
-            this.player.addEffect("speed", 2, { amplifier: 2, showParticles: false });
-            this.player.addEffect("jump_boost", 1, { amplifier: 3, showParticles: false });
+        if(this.isInInk) {
+            this.player.addEffect("speed", 10, { amplifier: 3, showParticles: false });
+            this.player.addEffect("jump_boost", 10, { amplifier: 3, showParticles: false });
         }
     }
 
@@ -201,10 +221,15 @@ export class GamePlayer {
 
     cooldown() {
         this.canShoot = false;
-        system.runTimeout(() => {
-            this.canShoot = true;
-            this.player.sendMessage("リロード完了！");
-        }, 20 * 3);
+        this.player.sendMessage('§bクールダウン中・・・インクがふえるのをまとう');
+        const intervalId = system.runInterval(() => {
+            if(this.currentInkAmount > 50) {
+                system.clearRun(intervalId);
+                this.canShoot = true;
+                this.player.sendMessage("リロード完了！");
+                return;
+            }
+        }, 10);
     }
 
 }

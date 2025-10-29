@@ -18,7 +18,10 @@ class InkGun {
         // インクを消費できたら射撃処理を行う
         console.log(`[InkGun] ${gamePlayer.name} is attempting to shoot ink gun. Current ink: ${gamePlayer.currentInkAmount}`);
         const inkConsumed = gamePlayer.consumeInk(this.consumeInkAmount);
-        if(!inkConsumed) return;
+        if(!inkConsumed) {
+            gamePlayer.player.sendMessage("インクがたりない！リロード中...");
+            gamePlayer.cooldown();
+        }
 
         // 射撃処理
         const dir = gamePlayer.player.getViewDirection();
@@ -60,12 +63,6 @@ class InkGun {
             
 
         }, 1);
-
-        // gamePlayerのインクが0になったらcooldownを開始
-        if(gamePlayer.currentInkAmount <= 0) {
-            gamePlayer.player.sendMessage("インクが切れた！リロード中...");
-            gamePlayer.cooldown();
-        }
     }
 
     /** 敵プレイヤーへの命中判定 */
