@@ -112,7 +112,7 @@ class GameManager {
         this.yellowScore = this.inkScores.yellow + (flagHoldTeam === "yellow" ? scoreWeight.flagScoreWeight : 0) + this.deathScores.yellow;
     }
 
-    showResults(flagHoldTeam) {
+    async showResults(flagHoldTeam) {
 
         const coin = "\ue102";
         const agent = "\ue103";
