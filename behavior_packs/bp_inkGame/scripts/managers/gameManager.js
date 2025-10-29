@@ -41,12 +41,12 @@ class GameManager {
                 broadcastTitle('§cスタート！！', 'インクをぬりながらすすもう！');
                 this.gameState = "PLAYING";
                 gamePlayerManager.setCanShootTrue();
-                this.tickInterval = system.runInterval(() => this.checkPerSecond(), 20);
+                this.tickInterval = system.runInterval(() => this.handleTick(), 20);
             }
         }
     }
 
-    checkPerSecond() {
+    handleTick() {
         if(this.gameState !== "PLAYING") {
             system.clearRun(this.tickInterval);
             return;
