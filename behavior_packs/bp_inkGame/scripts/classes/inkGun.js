@@ -49,7 +49,7 @@ class InkGun {
             }
 
             const block = gamePlayer.player.dimension.getBlock(spawnPos);
-            if(block && block.isSolid && block.typeId !== gamePlayer.teamColorBlockTypeId) {
+            if(block && block.typeId !== "minecraft:air" && block.typeId !== gamePlayer.teamColorBlockTypeId) {
                 console.log(`[InkGun] Bullet hit a solid block at (${spawnPos.x.toFixed(2)}, ${spawnPos.y.toFixed(2)}, ${spawnPos.z.toFixed(2)})`);
                 system.clearRun(intervalId);
                 this.isShooting = false;
