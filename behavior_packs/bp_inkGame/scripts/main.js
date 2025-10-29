@@ -7,6 +7,7 @@ import { gameManager } from "./managers/gameManager.js";
 import { gamePlayerManager } from "./managers/gamePlayerManager.js";
 import { npcManager } from "./managers/npcManager.js";
 import { npcConfigs } from "./configs/npcConfig.js";
+import { playerSpawnPosition } from "./configs/playerConfig.js";
 
 
 
@@ -31,6 +32,9 @@ world.afterEvents.playerSpawn.subscribe(ev => {
     
     console.log(`Player spawned: ${player.name} (${player.id})`);
     gamePlayerManager.addGamePlayer(player);
+    player.teleport(playerSpawnPosition.spawnPoint);
+    const gamePlayer = gamePlayerManager.gamePlayers.get(player.id);
+    gamePlayerManager.setPlayerSpawnPoint(gamePlayer, playerSpawnPosition.spawnDimension, playerSpawnPosition.spawnPoint);
 });
 
 

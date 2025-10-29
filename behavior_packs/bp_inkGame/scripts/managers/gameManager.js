@@ -7,6 +7,7 @@ import { inkManager } from "./inkManager";
 import { scoreWeight } from "../configs/scoreConfig";
 import { MessageFormData } from "@minecraft/server-ui";
 import { gameRuleConfig } from "../configs/gameRuleConfig";
+import { playerSpawnPosition } from "../configs/playerConfig";
 
 class GameManager {
     constructor() {
@@ -111,6 +112,11 @@ class GameManager {
         this.deathScores = null;
         this.blueScore = 0;
         this.yellowScore = 0;
+
+        this.gameState = "PREPARE";
+        gamePlayerManager.gamePlayers.forEach(gamePlayer => {
+            gamePlayer.player.teleport(playerSpawnPosition.spawnPoint);
+        })
     }
 
     calculateScores(flagHoldTeam) {

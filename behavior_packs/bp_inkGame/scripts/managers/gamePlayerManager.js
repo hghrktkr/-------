@@ -109,9 +109,11 @@ class GamePlayerManager {
     teleportTeamPlayers() {
         this.BlueTeamPlayers.forEach(blueTeamPlayer => {
             blueTeamPlayer.player.teleport(teamConfig.teamBlue.teamSpawnPos);
+            this.setPlayerSpawnPoint(blueTeamPlayer, teamConfig.teamBlue.teamDimension,teamConfig.teamBlue.teamSpawnPos);
         });
         this.YellowTeamPlayers.forEach(yellowTeamPlayer => {
             yellowTeamPlayer.player.teleport(teamConfig.teamYellow.teamSpawnPos);
+            this.setPlayerSpawnPoint(yellowTeamPlayer, teamConfig.teamYellow.teamDimension, teamConfig.teamYellow.teamSpawnPos);
         });
 
         this.setSpectators();
@@ -135,6 +137,16 @@ class GamePlayerManager {
 
     setCanShootFalse() {
         this.gamePlayers.forEach(gamePlayer => gamePlayer.canShoot = false);
+    }
+
+    setPlayerSpawnPoint(gamePlayer, dimension, location) {
+        const dimLoc = {
+            dimension: dimension,
+            x: location.x,
+            y: location.y,
+            z: location.z
+        }
+        gamePlayer.player.setSpawnPoint(dimLoc);
     }
 
     reset() {

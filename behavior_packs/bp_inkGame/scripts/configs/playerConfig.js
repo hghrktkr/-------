@@ -14,6 +14,7 @@ export const teamConfig = {
         teamColorBlockType: "edu:ink_blue",
         teamAreaStart: {x: -48, y: 8, z: -2},
         teamAreaEnd: {x: -44, y: 8, z: 2},
+        teamDimension: "overworld",
         teamSpawnPos: {x: -46, y: 8, z: 0}
     },
     teamYellow: {
@@ -22,6 +23,7 @@ export const teamConfig = {
         teamColorBlockType: "edu:ink_yellow",
         teamAreaStart: {x: 44, y: 8, z: -2},
         teamAreaEnd: {x: 48, y: 8, z: 2},
+        teamDimension: "overworld",
         teamSpawnPos: {x: 46, y: 8, z: 0}
     },
     spectator: {
