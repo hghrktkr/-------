@@ -48,7 +48,10 @@ class GameManager {
 
     handleTick() {
         if(this.gameState !== "PLAYING") {
-            system.clearRun(this.tickInterval);
+            if(this.tickInterval) {
+                system.clearRun(this.tickInterval);
+                this.tickInterval = null;
+            }
             return;
         }
 
