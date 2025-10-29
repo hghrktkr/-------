@@ -64,7 +64,7 @@ class GameManager {
             this.endGame();
         }
 
-        if(flagManager.checkFlagHolderInOwnArea()) {
+        if(flagManager.flagHolder && flagManager.checkFlagHolderInOwnArea()) {
             const flagHoldTeam = flagManager.flagHolder.team === "blue" ? "blue" : "yellow";
             this.gameState = 'END';
             this.endGame(flagHoldTeam);
