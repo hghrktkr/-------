@@ -109,6 +109,10 @@ class GameManager {
         if(this.gameState !== "RESET") return;
         gamePlayerManager.reset();
         inkManager.reset();
+        this.inkScores = null;
+        this.deathScores = null;
+        this.blueScore = 0;
+        this.yellowScore = 0;
     }
 
     calculateScores(flagHoldTeam) {
