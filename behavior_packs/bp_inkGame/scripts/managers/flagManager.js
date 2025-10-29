@@ -13,8 +13,8 @@ class FlagManager {
 
 
     spawnFlag() {
-        const randomPos = LOCATION_UTILS.makeRandomPos(flagConfig.startPos, flagConfig.endPos);
-        const flag = world.getDimension(flagConfig.dimension).setBlockType(randomPos, "edu:flag");
+        const randomIndex = Math.floor(Math.random() * flagConfig.spawnPos.length);
+        const flag = world.getDimension(flagConfig.dimension).setBlockType(flagConfig.spawnPos[randomIndex], "edu:flag");
         this.flagPos = flag.location;
         broadcastTitle('フラッグしゅつげん！！', 'チームエリアに持っていこう');
     }
