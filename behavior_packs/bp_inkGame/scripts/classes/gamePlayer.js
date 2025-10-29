@@ -194,12 +194,12 @@ export class GamePlayer {
             if(this.isSpeedUp) {
                 this.isSpeedUp = false;
             }
-            this.player.addEffect("slowness", 10, { amplifier: 3, showParticles: false });
+            this.player.addEffect("slowness", 40, { amplifier: 3, showParticles: false });
             return;
         }
         if(this.isInInk) {
-            this.player.addEffect("speed", 10, { amplifier: 3, showParticles: false });
-            this.player.addEffect("jump_boost", 10, { amplifier: 3, showParticles: false });
+            this.player.addEffect("speed", 40, { amplifier: 3, showParticles: false });
+            this.player.addEffect("jump_boost", 40, { amplifier: 3, showParticles: false });
         }
     }
 
