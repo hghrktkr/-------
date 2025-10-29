@@ -123,9 +123,9 @@ class GameManager {
             `§6黄チーム: §f${this.yellowScore}`,
             "",
             this.blueScore > this.yellowScore
-                ? `${agent} §9青チームの勝利！ ${agent}`
+                ? `${agent} §9青チームの勝利！§f ${agent}`
                 : this.yellowScore > this.blueScore
-                ? `${agent} §6黄チームの勝利！ ${agent}`
+                ? `${agent} §6黄チームの勝利！§f ${agent}`
                 : `${agent} 引き分け！ ${agent}`,
             "",
             "── 内訳 ──",
