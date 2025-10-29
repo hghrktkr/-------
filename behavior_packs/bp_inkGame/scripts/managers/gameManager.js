@@ -1,4 +1,4 @@
-import { system, world } from "@minecraft/server";
+import { GameRules, system, world } from "@minecraft/server";
 import { flagConfig } from "../configs/flagConfig";
 import { broadcastTitle } from "../utils/helpers";
 import { flagManager } from "./flagManager";
@@ -6,6 +6,7 @@ import { gamePlayerManager } from "./gamePlayerManager";
 import { inkManager } from "./inkManager";
 import { scoreWeight } from "../configs/scoreConfig";
 import { MessageFormData } from "@minecraft/server-ui";
+import { gameRuleConfig } from "../configs/gameRuleConfig";
 
 class GameManager {
     constructor() {
@@ -163,6 +164,14 @@ class GameManager {
 
             } catch (e) {
                 console.warn(`Form failed for ${player.name}: ${e}`);
+            }
+        }
+    }
+
+    enforceGameRule() {
+        for(const [gameRule, value] of Object.entries(gameRuleConfig)) {
+            if(GameRules[gameRule] && GameRules[gameRule] !== value) {
+                GameRules[gameRule] = value;
             }
         }
     }
