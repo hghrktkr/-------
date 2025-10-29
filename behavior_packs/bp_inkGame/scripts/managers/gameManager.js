@@ -108,7 +108,7 @@ class GameManager {
         this.yellowScore = inkScores.yellow + (flagHoldTeam === "yellow" ? scoreWeight.flagScoreWeight : 0) + deathScores.yellow;
     }
 
-    showResults(flagHoldTeam) {
+    async showResults(flagHoldTeam) {
         const title = "🎉 試合結果 🎉";
         const body = [
         `§9青チーム: §f${this.blueScore}`,
@@ -134,7 +134,7 @@ class GameManager {
         ].join("\n");
 
         for (const player of world.getPlayers()) {
-        new MessageFormData()
+        await new MessageFormData()
             .title(title)
             .body(body)
             .button1("OK")
