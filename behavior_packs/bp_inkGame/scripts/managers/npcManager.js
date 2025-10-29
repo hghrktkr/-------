@@ -66,7 +66,7 @@ export class NPCManager {
                 break;
 
             case "reset_player":
-                gamePlayerManager.resetPlayer();
+                gamePlayerManager.resetPlayer(gamePlayer);
                 break;
 
             case "nothing":
