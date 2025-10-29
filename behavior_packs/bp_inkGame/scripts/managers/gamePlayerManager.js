@@ -9,10 +9,11 @@ class GamePlayerManager {
         this.gamePlayers = new Map();
         this.BlueTeamPlayers = new Set();
         this.YellowTeamPlayers = new Set();
+        this.spectators = new Set();
         this.deathScore = {
             blue: 0,
             yellow: 0
-        }
+        };
     }
  
     addGamePlayer(player) {
@@ -102,6 +103,20 @@ class GamePlayerManager {
         this.YellowTeamPlayers.forEach(yellowTeamPlayer => {
             yellowTeamPlayer.player.teleport(teamConfig.teamYellow.teamSpawnPos);
         });
+
+        this.setSpectators();
+        if(this.spectators.size === 0) return;
+        this.spectators.forEach(spectator => {
+            spectator.player.teleport(teamConfig.spectator.spawnPos);
+        });
+    }
+
+    setSpectators() {
+        for(const [, gamePlayer] of this.gamePlayers) {
+            if(!this.BlueTeamPlayers.has(gamePlayer) && !this.YellowTeamPlayers.has(gamePlayer)) {
+                this.spectators.add(gamePlayer);
+            }
+        }
     }
 
     setCanShootTrue() {
@@ -110,6 +125,16 @@ class GamePlayerManager {
 
     setCanShootFalse() {
         this.gamePlayers.forEach(gamePlayer => gamePlayer.canShoot = false);
+    }
+
+    reset() {
+        this.BlueTeamPlayers = new Set();
+        this.YellowTeamPlayers = new Set();
+        this.spectators = new Set();
+        this.deathScore = {
+            blue: 0,
+            yellow: 0
+        };
     }
 
 
