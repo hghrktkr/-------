@@ -10,7 +10,7 @@ export const npcConfigs = {
         options: [
             { label: "§b青チーム", action: "join_blue" },
             { label: "§6黄チーム", action: "join_yellow" },
-            { label: "かんきゃく", action: "nothing" }
+            { label: "かんきゃく", action: "reset_player" }
         ]
     },
     gameStart: {

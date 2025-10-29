@@ -87,12 +87,17 @@ class GamePlayerManager {
     }
 
     givePlayerInkGun(gamePlayer) {
+        const container = gamePlayer.player.getComponent("minecraft:inventory").container;
         const inkGun = new ItemStack("edu:ink_gun", 1);
+        const slot = container.find(inkGun);
+
+        if(slot !== undefined) return;  // 既に持っている場合は飛ばす
+
         inkGun.name = "インクガン";
         inkGun.keepOnDeath = true;
         inkGun.lockMode = ItemLockMode.inventory;
         inkGun.setCanDestroy(["edu:flag"]);
-        gamePlayer.player.getComponent("minecraft:inventory").container.addItem(inkGun);
+        container.addItem(inkGun);
         console.log(`Gave Ink Gun to player ${gamePlayer.name}.`);
     }
 
@@ -135,6 +140,21 @@ class GamePlayerManager {
             blue: 0,
             yellow: 0
         };
+        for(let gamePlayer of this.gamePlayers.values()) {
+            gamePlayer.clearEquipments();
+        }
+    }
+
+    resetPlayer(gamePlayer) {
+        if(!this.gamePlayers.has(gamePlayer.id)) return;
+
+        if(this.BlueTeamPlayers.has(gamePlayer)) {
+            this.BlueTeamPlayers.delete(gamePlayer);
+        }
+        else if(this.YellowTeamPlayers.has(gamePlayer)) {
+            this.YellowTeamPlayers.delete(gamePlayer);
+        }
+        gamePlayer.clearEquipments();
     }
 
 

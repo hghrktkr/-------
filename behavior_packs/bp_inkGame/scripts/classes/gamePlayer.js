@@ -183,6 +183,10 @@ export class GamePlayer {
         }
     }
 
+    clearEquipments() {
+        this.player.getComponent("minecraft:inventory").container.clearAll();
+    }
+
 
     consumeInk(inkAmount) {
         if(!this.canShoot) return false;

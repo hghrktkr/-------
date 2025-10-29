@@ -64,7 +64,11 @@ export class NPCManager {
             case "teleport_teams":
                 await this.confirmAndStartGame(player);
                 break;
-            
+
+            case "reset_player":
+                gamePlayerManager.resetPlayer();
+                break;
+
             case "nothing":
                 break;
 
