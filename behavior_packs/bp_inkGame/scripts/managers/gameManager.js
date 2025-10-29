@@ -49,7 +49,6 @@ class GameManager {
     checkPerSecond() {
         if(this.gameState !== "PLAYING") {
             system.clearRun(this.tickInterval);
-            this.gameState = "PREPARE";
             return;
         }
 
@@ -71,7 +70,7 @@ class GameManager {
             this.endGame(flagHoldTeam);
         }
 
-        if(this.timer % 100 === 0) {
+        if(this.timer !== 0 && this.timer !== this.maxGameTime && this.timer % 1200 === 0) {
             inkManager.updateInkCount();
             // 全体へ表示
             const currentInkCounts = inkManager.getInkCount();
@@ -106,8 +105,8 @@ class GameManager {
         this.inkScores = inkManager.getInkScore();
         this.deathScores = gamePlayerManager.getDeathScore();
         
-        this.blueScore = inkScores.blue + (flagHoldTeam === "blue" ? scoreWeight.flagScoreWeight : 0) + deathScores.blue;
-        this.yellowScore = inkScores.yellow + (flagHoldTeam === "yellow" ? scoreWeight.flagScoreWeight : 0) + deathScores.yellow;
+        this.blueScore = this.inkScores.blue + (flagHoldTeam === "blue" ? scoreWeight.flagScoreWeight : 0) + this.deathScores.blue;
+        this.yellowScore = this.inkScores.yellow + (flagHoldTeam === "yellow" ? scoreWeight.flagScoreWeight : 0) + this.deathScores.yellow;
     }
 
     showResults(flagHoldTeam) {
@@ -147,19 +146,10 @@ class GameManager {
                 .button1("OK")
                 .button2("とじる");
 
-                // フォームを表示
-                return new Promise(resolve => {
-                    system.run(() => {
-                        form.show(player).then(res => {
-                            if(res.canceled) {
-                                resolve(null);
-                            }
-                            else {
-                                resolve(res.selection);
-                            };
-                        });
-                    });
-                });
+                // フォーム表示
+                system.run(() => {
+                    form.show(player);
+                })
 
             } catch (e) {
                 console.warn(`Form failed for ${player.name}: ${e}`);
