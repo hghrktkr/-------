@@ -48,8 +48,11 @@ world.afterEvents.entityDie.subscribe(ev => {
 // 毎tickチェック
 system.runInterval(() => {
     // ゲームモード・ゲームルールの監視
-    if(gameManager.gameState !== "PLAYING") return;
     gamePlayerManager.checkPlayerGameMode();
+    gameManager.enforceGameRule();
+
+    // ゲーム中のみ監視(0.5秒おき)
+    if(gameManager.gameState !== "PLAYING") return;
     for(const gamePlayer of gamePlayerManager.gamePlayers.values()) {
         gamePlayer.updatePerTick();
     }
@@ -75,7 +78,8 @@ world.beforeEvents.playerInteractWithEntity.subscribe((ev) => {
     console.log(`player[${player.nameTag}] interacted entity[${target.nameTag}]`);
 
     // typeIdがedu:game_masterのNPCだけ反応するように
-    if (target.typeId !== "edu:game_master") return;
+    if(target.typeId !== "edu:game_master") return;
+    if(gameManager.gameState !== "PREPARE") return;
 
     // NPCのnameTag（表示名）でどの設定に対応するかを探す
     const npcConfig = [...npcManager.npcConfigs.values()].find(
