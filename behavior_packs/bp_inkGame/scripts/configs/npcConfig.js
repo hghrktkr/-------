@@ -4,7 +4,7 @@ export const npcConfigs = {
         entityId: "edu:game_master",
         nameTag: "チームわけかかり",
         dimension: "overworld",
-        position: { x: 2, y: 0, z: 0 },
+        position: { x: 2, y: 0, z: 40 },
         title: "チームをえらぼう！",
         body: "さんかするチームをえらんでください。",
         options: [
@@ -18,7 +18,7 @@ export const npcConfigs = {
         entityId: "edu:game_master",
         nameTag: "ゲームかいしかかり",
         dimension: "overworld",
-        position: { x: 4, y: 0, z: 0 },
+        position: { x: 4, y: 0, z: 40 },
         title: "ゲームかいし",
         body: "§l§nぜんいんがチームにさんかしたら§r、ゲームをかいししましょう！",
         options: [
