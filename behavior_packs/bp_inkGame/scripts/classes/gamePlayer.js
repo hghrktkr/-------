@@ -1,4 +1,4 @@
-import { BlockVolume, GameMode, ItemStack, system, world } from "@minecraft/server";
+import { BlockVolume, EquipmentSlot, GameMode, ItemStack, system, world } from "@minecraft/server";
 import { broadcastChat, TitleToPlayer } from "../utils/helpers";
 import { playerSpawnPosition } from "../configs/playerConfig";
 import { scoreWeight } from "../configs/scoreConfig";
@@ -185,6 +185,7 @@ export class GamePlayer {
 
     clearEquipments() {
         this.player.getComponent("minecraft:inventory").container.clearAll();
+        this.player.getComponent("minecraft:equippable").setEquipment(EquipmentSlot.Chest);
     }
 
 

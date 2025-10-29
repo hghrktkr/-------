@@ -60,6 +60,7 @@ class GamePlayerManager {
         console.log(`Player ${gamePlayer.name} added to Blue Team.`);
         gamePlayer.setTeam(teamConfig.teamBlue.teamColor, teamConfig.teamBlue.teamColorEntityType, teamConfig.teamBlue.teamColorBlockType);
 
+        gamePlayer.clearEquipments();
         this.equipPlayerBib(gamePlayer, "edu:bib_blue");
         this.givePlayerInkGun(gamePlayer);
     }
@@ -75,6 +76,7 @@ class GamePlayerManager {
         console.log(`Player ${gamePlayer.name} added to Yellow Team.`);
         gamePlayer.setTeam(teamConfig.teamYellow.teamColor, teamConfig.teamYellow.teamColorEntityType, teamConfig.teamYellow.teamColorBlockType);
 
+        gamePlayer.clearEquipments();
         this.equipPlayerBib(gamePlayer, "edu:bib_yellow");
         this.givePlayerInkGun(gamePlayer);
     }
