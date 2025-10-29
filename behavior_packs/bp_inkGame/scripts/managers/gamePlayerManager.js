@@ -42,7 +42,10 @@ class GamePlayerManager {
 
     checkPlayerGameMode() {
         this.gamePlayers.forEach((gamePlayer) => {
-            if(gamePlayer.player.gameMode !== GameMode.Adventure) {
+            if(this.spectators.has(gamePlayer) && gamePlayer.player.gameMode !== GameMode.Spectator) {
+                gamePlayer.player.setGameMode(GameMode.Spectator);
+            }
+            else if(gamePlayer.player.gameMode !== GameMode.Adventure) {
                 gamePlayer.player.setGameMode(GameMode.Adventure);
                 // console.log(`Reset game mode for player ${gamePlayer.name} to Adventure.`);
             }
