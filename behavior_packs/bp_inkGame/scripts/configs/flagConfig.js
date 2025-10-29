@@ -8,5 +8,5 @@ export const flagConfig = {
         {x: 3, y: 3, z: 0}
     ],
     dimension: "overworld",
-    spawnTime: 120
+    spawnTime: 124
 }
