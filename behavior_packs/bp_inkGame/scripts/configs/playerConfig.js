@@ -23,5 +23,8 @@ export const teamConfig = {
         teamAreaStart: {x: 30, y: 0, z: -30},
         teamAreaEnd: {x: 30, y: 0, z: 0},
         teamSpawnPos: {x: 30, y: 0, z: -15}
+    },
+    spectator: {
+        spawnPos: {x: 0, y: 0, z: 0 }
     }
 }
