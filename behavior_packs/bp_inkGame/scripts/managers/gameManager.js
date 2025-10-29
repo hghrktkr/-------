@@ -62,13 +62,13 @@ class GameManager {
 
         if(this.timer >= this.maxGameTime) {
             this.gameState = 'END';
-            this.endGame('timeUp');
+            this.endGame();
         }
 
         if(flagManager.checkFlagHolderInOwnArea()) {
             const flagHoldTeam = flagManager.flagHolder.team === "blue" ? "blue" : "yellow";
             this.gameState = 'END';
-            this.endGame('flag', flagHoldTeam);
+            this.endGame(flagHoldTeam);
         }
 
         if(this.timer % 100 === 0) {
@@ -82,7 +82,7 @@ class GameManager {
 
     }
 
-    endGame(endReason, flagHoldTeam = null) {
+    endGame(flagHoldTeam = null) {
         if(this.gameState !== 'END') return;
 
         system.clearRun(this.tickInterval);
@@ -108,38 +108,60 @@ class GameManager {
         this.yellowScore = inkScores.yellow + (flagHoldTeam === "yellow" ? scoreWeight.flagScoreWeight : 0) + deathScores.yellow;
     }
 
-    async showResults(flagHoldTeam) {
-        const title = "🎉 試合結果 🎉";
+    showResults(flagHoldTeam) {
+
+        const coin = "\ue102";
+        const agent = "\ue103";
+
+        const title = `${agent} しあいけっか ${agent}`;
         const body = [
-        `§9青チーム: §f${this.blueScore}`,
-        `§6黄チーム: §f${this.yellowScore}`,
-        "",
-        this.blueScore > this.yellowScore
-            ? "🏆 §9青チームの勝利！"
-            : this.yellowScore > this.blueScore
-            ? "🏆 §6黄チームの勝利！"
-            : "🤝 引き分け！",
-        "",
-        "── 内訳 ──",
-        "",
-        `フラッグボーナス: ${
-            flagHoldTeam === null
-            ? "なし"
-            : flagHoldTeam === "blue"
-            ? "青チーム"
-            : "黄チーム"
-        }`,
-        `ぬりスコア: 青 ${this.inkScores.blue} == 黄 ${this.inkScores.yellow}`,
-        `死亡ペナルティ: 青 ${this.deathScores.blue} == 黄 ${this.deathScores.yellow}`,
+            `§9青チーム: §f${this.blueScore}`,
+            `§6黄チーム: §f${this.yellowScore}`,
+            "",
+            this.blueScore > this.yellowScore
+                ? `${agent} §9青チームの勝利！ ${agent}`
+                : this.yellowScore > this.blueScore
+                ? `${agent} §6黄チームの勝利！ ${agent}`
+                : `${agent} 引き分け！ ${agent}`,
+            "",
+            "── 内訳 ──",
+            "",
+            ` ${coin} フラッグボーナス: ${
+                flagHoldTeam === null
+                ? "なし"
+                : flagHoldTeam === "blue"
+                ? "青チーム"
+                : "黄チーム"
+            }`,
+            `${coin} ぬりスコア: 青 ${this.inkScores.blue} == 黄 ${this.inkScores.yellow}`,
+            `${coin} 死亡ペナルティ: 青 ${this.deathScores.blue} == 黄 ${this.deathScores.yellow}`,
         ].join("\n");
 
         for (const player of world.getPlayers()) {
-        await new MessageFormData()
-            .title(title)
-            .body(body)
-            .button1("OK")
-            .button2("閉じる")
-            .show(player);
+            try {
+                const form = new MessageFormData()
+                .title(title)
+                .body(body)
+                .button1("OK")
+                .button2("とじる");
+
+                // フォームを表示
+                return new Promise(resolve => {
+                    system.run(() => {
+                        form.show(player).then(res => {
+                            if(res.canceled) {
+                                resolve(null);
+                            }
+                            else {
+                                resolve(res.selection);
+                            };
+                        });
+                    });
+                });
+
+            } catch (e) {
+                console.warn(`Form failed for ${player.name}: ${e}`);
+            }
         }
     }
 }
