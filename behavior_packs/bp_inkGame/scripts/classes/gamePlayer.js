@@ -194,7 +194,7 @@ export class GamePlayer {
             if(this.isSpeedUp) {
                 this.isSpeedUp = false;
             }
-            this.player.addEffect("slowness", 40, { amplifier: 3, showParticles: false });
+            this.player.addEffect("slowness", 40, { amplifier: 2, showParticles: false });
             return;
         }
         if(this.isInInk) {
