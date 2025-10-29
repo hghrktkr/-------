@@ -71,7 +71,6 @@ export class GamePlayer {
     respawn() {
         this.isRespawning = true;
         if(this.player?.isValid) {
-            this.player.runCommand(`inputpermission set @s movement disabled`);
         }
 
         let count = 3;
@@ -89,8 +88,6 @@ export class GamePlayer {
             this.isRespawning = false;
             this.isAlive = true;
             this.canShoot = true;
-            this.isRespawning = false;
-            this.player.runCommand(`inputpermission set @s movement enabled`);
 
             this.player.runCommand("playsound random.orb @s");
             this.player.runCommand("particle minecraft:totem_particle ~ ~1 ~");
