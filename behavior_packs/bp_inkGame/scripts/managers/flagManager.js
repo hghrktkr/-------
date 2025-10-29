@@ -85,7 +85,15 @@ class FlagManager {
         this.flagHolder = null;
         broadcastChat(`§b${gamePlayer.name}§fが§eフラッグ§fを落とした！`);
 
-        const pos = gamePlayer.player.location;
+        let pos = gamePlayer.player.location;
+        const block = gamePlayer.player.dimension.getBlock(pos);
+        if(block.typeId !== "minecraft:air"){
+            pos = {
+                x: pos.x,
+                y: pos.y + 1,
+                z: pos.z
+            }
+        }
         gamePlayer.player.dimension.setBlockType(pos, "edu:flag");
         this.flagPos = pos;
 
