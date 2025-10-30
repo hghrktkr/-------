@@ -16,7 +16,7 @@
         },
         {
             "type": "script",
-            "description": "This is a script module for the maze game.",
+            "description": "This is a script module",
             "uuid": "e59f0bc3-e6d8-4654-a403-5e55d6301619",
             "version": [1, 0, 0],
             "entry": "scripts/main.js"

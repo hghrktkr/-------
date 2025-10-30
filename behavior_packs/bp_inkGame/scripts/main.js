@@ -29,7 +29,6 @@ world.afterEvents.playerSpawn.subscribe(ev => {
     const { player } = ev;
 
     if(gameManager.gameState === "PLAYING" && gamePlayerManager.gamePlayers.has(player.id)) return;
-    
     console.log(`Player spawned: ${player.name} (${player.id})`);
     gamePlayerManager.addGamePlayer(player);
     player.teleport(playerSpawnPosition.spawnPoint);
@@ -73,8 +72,6 @@ world.afterEvents.playerInventoryItemChange.subscribe((ev) => {
         flagManager.onGetFlag(gamePlayer);
     }
 });
-
-
 
 // プレイヤーがエンティティをインタラクトした時
 world.beforeEvents.playerInteractWithEntity.subscribe((ev) => {
