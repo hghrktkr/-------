@@ -87,24 +87,26 @@ class GameManager {
 
         system.clearRun(this.tickInterval);
         this.timer = 0;
-        gamePlayerManager.teleportTeamPlayers();
         gamePlayerManager.setCanShootFalse();
-
+        gamePlayerManager.teleportTeamPlayers();
+        world.getDimension(playerSpawnPosition.spawnDimension).runCommand(`camera @a set minecraft:free pos 0 25 0 facing 0 24 0`); // カメラを俯瞰に
+        
         broadcastTitle('しゅうりょう！！','結果集計中・・・');
-
+        
         // 集計
         this.calculateScores(flagHoldTeam);
-
+        
         // 結果表示
         system.runTimeout(() => {
             this.showResults(flagHoldTeam);
             this.gameState = "RESET";
             this.reset();
-        }, 20 * 2);
+        }, 20 * 5);
     }
 
     reset() {
         if(this.gameState !== "RESET") return;
+        world.getDimension(playerSpawnPosition.spawnDimension).runCommand(`camera @a clear`);
         gamePlayerManager.reset();
         inkManager.reset();
         flagManager.reset();
