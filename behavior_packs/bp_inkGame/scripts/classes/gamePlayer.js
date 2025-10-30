@@ -129,12 +129,6 @@ export class GamePlayer {
         this.isInInk = block?.typeId === this.teamColorBlockType;
     }
 
-    checkOutOfInk() {
-        if(!this.isInInk && this.hasFlag && this.player.isOnGround) {
-            flagManager.onDamagedDropFlag(this);
-        }
-    }
-
     checkHasFlag() {
         // const container = this.player.getComponent("minecraft:inventory").container;
         // const flag = new ItemStack("edu:flag", 1);
@@ -194,7 +188,7 @@ export class GamePlayer {
             if(this.isSpeedUp) {
                 this.isSpeedUp = false;
             }
-            this.player.addEffect("slowness", 40, { amplifier: 2, showParticles: false });
+            this.player.addEffect("slowness", 40, { amplifier: 1, showParticles: false });
             return;
         }
         if(this.isInInk) {
