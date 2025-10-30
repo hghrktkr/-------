@@ -117,7 +117,6 @@ class FlagManager {
     }
 
     reset() {
-        if(this.flagHolder === null && this.flagPos === null) return;
         const block = world.getDimension("overworld").getBlock(this.flagPos);
         if(block.typeId === "edu:flag") {
             block.setType("minecraft:air");
