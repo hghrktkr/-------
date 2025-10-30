@@ -41,26 +41,26 @@
                 }
             ]
         },
-        "edu.correct": {
+        "edu.gong_start": {
             "category": "player",
             "max_distance": null,
             "min_distance": null,
             "sounds": [
                 {
-                    "name":"sounds/custom/correct",
+                    "name":"sounds/custom/gong_start",
                     "stream": true,
                     "is3D": false,
                     "volume": 0.4
                 }
             ]
         },
-        "edu.incorrect": {
+        "edu.gun_shoot": {
             "category": "player",
             "max_distance": null,
             "min_distance": null,
             "sounds": [
                 {
-                    "name":"sounds/custom/incorrect",
+                    "name":"sounds/custom/gun_shoot",
                     "stream": true,
                     "is3D": false,
                     "volume": 0.4

@@ -32,12 +32,22 @@ class GameManager {
         for(let i = 3; i >= 0; i--) {
             if(i > 0) {
                 broadcastTitle(`§c${i}`);
+                gamePlayerManager.gamePlayers.forEach(gamePlayer => {
+                    gamePlayer.player.playSound("edu:beep", gamePlayer.player.location);
+                })
                 await system.waitTicks(20);
             }
             else {
                 broadcastTitle('§cスタート！！', 'インクをぬりながらすすもう！');
                 this.gameState = "PLAYING";
                 gamePlayerManager.setCanShootTrue();
+                gamePlayerManager.gamePlayers.forEach(gamePlayer => {
+                    gamePlayer.player.playSound("edu:gong_start", gamePlayer.player.location);
+                })
+                system.waitTicks(20);
+                gamePlayerManager.gamePlayers.forEach(gamePlayer => {
+                    gamePlayer.player.playMusic("edu:game_bgm",{"loop": true});
+                })
                 this.tickInterval = system.runInterval(() => this.handleTick(), 20);
             }
         }
@@ -84,7 +94,10 @@ class GameManager {
 
     endGame(flagHoldTeam = null) {
         if(this.gameState !== 'END') return;
-
+        gamePlayerManager.gamePlayers.forEach(gamePlayer => {
+            gamePlayer.player.stopMusic();
+            gamePlayer.player.playSound("edu:gong", gamePlayer.player.location);
+        })
         system.clearRun(this.tickInterval);
         this.timer = 0;
         gamePlayerManager.setCanShootFalse();
