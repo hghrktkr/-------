@@ -92,18 +92,20 @@ class GamePlayerManager {
     }
 
     givePlayerInkGun(gamePlayer) {
-        const container = gamePlayer.player.getComponent("minecraft:inventory").container;
-        const inkGun = new ItemStack("edu:ink_gun", 1);
-        const slot = container.find(inkGun);
+        // インベントリ操作がeducationでは未実装なのでコマンドで代用
+        // const container = gamePlayer.player.getComponent("minecraft:inventory").container;
+        // const inkGun = new ItemStack("edu:ink_gun", 1);
+        // const slot = container.find(inkGun);
 
-        if(slot !== undefined) return;  // 既に持っている場合は飛ばす
+        // if(slot !== undefined) return;  // 既に持っている場合は飛ばす
 
-        inkGun.name = "インクガン";
-        inkGun.keepOnDeath = true;
-        inkGun.lockMode = ItemLockMode.inventory;
-        inkGun.setCanDestroy(["edu:flag"]);
-        container.addItem(inkGun);
-        console.log(`Gave Ink Gun to player ${gamePlayer.name}.`);
+        // inkGun.name = "インクガン";
+        // inkGun.keepOnDeath = true;
+        // inkGun.lockMode = ItemLockMode.inventory;
+        // inkGun.setCanDestroy(["edu:flag"]);
+        // container.addItem(inkGun);
+        // console.log(`Gave Ink Gun to player ${gamePlayer.name}.`);
+        gamePlayer.player.runCommand(`give @s edu:ink_gun 1 0 {"item_lock":{"mode":"lock_in_slot"},"minecraft:can_destroy":{"blocks":["edu:flag"]}}`);
     }
 
     teleportTeamPlayers() {

@@ -105,13 +105,14 @@ class FlagManager {
         gamePlayer.player.dimension.setBlockType(pos, "edu:flag");
         this.flagPos = pos;
 
-        // インベントリからedu:flagを削除
-        const container = gamePlayer.player.getComponent("minecraft:inventory").container
-        const flag = new ItemStack("edu:flag", 1);
-        const slot = container.find(flag);
-        if(slot !== undefined) {
-            container.setItem(slot, null);
-        }
+        // インベントリからedu:flagを削除⇒Educationでインベントリの操作ができないようなのでコマンドで実行
+        // const container = gamePlayer.player.getComponent("minecraft:inventory").container
+        // const flag = new ItemStack("edu:flag", 1);
+        // const slot = container.find(flag);
+        // if(slot !== undefined) {
+        //     container.setItem(slot, null);
+        // }
+        gamePlayer.player.runCommand('clear @s edu:flag');
         
     }
 

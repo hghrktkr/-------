@@ -74,11 +74,11 @@ system.runInterval(() => {
 // });
 
 world.afterEvents.playerBreakBlock.subscribe((ev) => {
-    const { player, block } = ev;
+    const { player, itemStackAfterBreak } = ev;
     if(gameManager.gameState !== "PLAYING") return;
 
     const gamePlayer = gamePlayerManager.gamePlayers.get(player.id);
-    if(gamePlayer && block.typeId === "edu:flag") {
+    if(gamePlayer && itemStackAfterBreak.typeId === "edu:ink_gun") {
         flagManager.onGetFlag(gamePlayer);
     }
 
