@@ -8,6 +8,7 @@ import { gamePlayerManager } from "./managers/gamePlayerManager.js";
 import { npcManager } from "./managers/npcManager.js";
 import { npcConfigs } from "./configs/npcConfig.js";
 import { playerSpawnPosition } from "./configs/playerConfig.js";
+import { broadcastChat } from "./utils/helpers.js";
 
 
 
@@ -62,16 +63,26 @@ system.runInterval(() => {
 }, 10);
 
 
-// ゲーム中のインベントリチェック
-world.afterEvents.playerInventoryItemChange.subscribe((ev) => {
-    const { player, itemStack } = ev;
+// ゲーム中のインベントリチェック⇒Educationのバージョンでは利用不可
+// world.afterEvents.playerInventoryItemChange.subscribe((ev) => {
+//     const { player, itemStack } = ev;
+//     const gamePlayer = gamePlayerManager.gamePlayers.get(player.id);
+//     if(!gamePlayer || gameManager.gameState !== "PLAYING") return;
+//     if(itemStack.typeId === "edu:flag") {
+//         flagManager.onGetFlag(gamePlayer);
+//     }
+// });
+
+world.afterEvents.playerBreakBlock.subscribe((ev) => {
+    const { player, block } = ev;
+    if(gameManager.gameState !== "PLAYING") return;
 
     const gamePlayer = gamePlayerManager.gamePlayers.get(player.id);
-    if(!gamePlayer || gameManager.gameState !== "PLAYING") return;
-    if(itemStack.typeId === "edu:flag") {
+    if(gamePlayer && block.typeId === "edu:flag") {
         flagManager.onGetFlag(gamePlayer);
     }
-});
+
+})
 
 // プレイヤーがエンティティをインタラクトした時
 world.beforeEvents.playerInteractWithEntity.subscribe((ev) => {

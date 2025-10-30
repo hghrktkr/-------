@@ -62,6 +62,11 @@ class FlagManager {
         this.flagHolder = gamePlayer;
         gamePlayer.hasFlag = true;
         this.flagPos = null;
+
+        // flagを破壊したプレイヤーにItemStackをわたす
+        const flag = new ItemStack("edu:flag", 1);
+        gamePlayer.player.getComponent("minecraft:inventory").container.addItem(flag);
+
         const teamPlayers = gamePlayer.team === "blue" ? gamePlayerManager.BlueTeamPlayers : gamePlayerManager.YellowTeamPlayers;
         const otherTeamPlayers = gamePlayer.team === "blue" ? gamePlayerManager.YellowTeamPlayers : gamePlayerManager.BlueTeamPlayers;
 

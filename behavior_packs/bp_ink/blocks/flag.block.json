@@ -13,6 +13,7 @@
 			}
 		},
 		"components": {
+			"minecraft:loot": "loot_tables/empty.json",
 			"minecraft:collision_box": true,
 			"minecraft:selection_box": true,
 			"minecraft:destructible_by_mining": {
