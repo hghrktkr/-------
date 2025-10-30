@@ -8,7 +8,7 @@ export const gameRuleConfig = {
     doMobSpawning: false,          // モブが自然スポーンするか
     doMobLoot: false,              // モブがドロップするか
     doTileDrops: false,            // ブロック破壊時にアイテムが落ちるか
-    keepInventory: false,          // 死亡時にインベントリを保持するか
+    keepInventory: true,          // 死亡時にインベントリを保持するか
     fallDamage: true,             // 落下ダメージを受けるか
     fireDamage: true,             // 火や溶岩でダメージを受けるか
     drowningDamage: true,         // 溺死ダメージを受けるか
