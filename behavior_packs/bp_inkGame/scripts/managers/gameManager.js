@@ -99,6 +99,7 @@ class GameManager {
             gamePlayer.player.playSound("edu.gong", gamePlayer.player.location);
         }
         system.clearRun(this.tickInterval);
+        this.tickInterval = null;
         this.timer = 0;
         gamePlayerManager.setCanShootFalse();
         gamePlayerManager.teleportTeamPlayers();
@@ -127,6 +128,7 @@ class GameManager {
         this.deathScores = null;
         this.blueScore = 0;
         this.yellowScore = 0;
+        this.timer = 0;
 
         this.gameState = "PREPARE";
         gamePlayerManager.gamePlayers.forEach(gamePlayer => {
@@ -149,28 +151,57 @@ class GameManager {
         const agent = "\ue103";
 
         const title = `${agent} しあいけっか ${agent}`;
-        const body = [
-            `§9青チーム: §f${this.blueScore}`,
-            `§6黄チーム: §f${this.yellowScore}`,
-            "",
-            this.blueScore > this.yellowScore
-                ? `${agent} §9青チームの勝利！§f ${agent}`
-                : this.yellowScore > this.blueScore
-                ? `${agent} §6黄チームの勝利！§f ${agent}`
-                : `${agent} 引き分け！ ${agent}`,
-            "",
-            "── 内訳 ──",
-            "",
-            ` ${coin} フラッグボーナス: ${
-                flagHoldTeam === null
-                ? "なし"
-                : flagHoldTeam === "blue"
-                ? "青チーム"
-                : "黄チーム"
-            }`,
-            `${coin} ぬりスコア: 青 ${this.inkScores.blue} == 黄 ${this.inkScores.yellow}`,
-            `${coin} 死亡ペナルティ: 青 ${this.deathScores.blue} == 黄 ${this.deathScores.yellow}`,
-        ].join("\n");
+
+        // 配列だと絵文字がうまく表示されないので文字列の追加で作成
+        // const body = [
+        //     `§9青チーム: §f${this.blueScore}`,
+        //     `§6黄チーム: §f${this.yellowScore}`,
+        //     "",
+        //     this.blueScore > this.yellowScore
+        //         ? `${agent} §9青チームの勝利！§f ${agent}`
+        //         : this.yellowScore > this.blueScore
+        //         ? `${agent} §6黄チームの勝利！§f ${agent}`
+        //         : `${agent} 引き分け！ ${agent}`,
+        //     "",
+        //     "",
+        //     ` ${coin} フラッグボーナス: ${
+        //         flagHoldTeam === null
+        //         ? "なし"
+        //         : flagHoldTeam === "blue"
+        //         ? "青チーム"
+        //         : "黄チーム"
+        //     }`,
+        //     `${coin} ぬりスコア: 青 ${this.inkScores.blue} == 黄 ${this.inkScores.yellow}`,
+        //     `${coin} 死亡ペナルティ: 青 ${this.deathScores.blue} == 黄 ${this.deathScores.yellow}`,
+        // ].join("\n");
+
+        let body = `§9青チーム: §f${this.blueScore}\n§6黄チーム: §f${this.yellowScore}\n\n`;
+
+        if(this.blueScore > this.yellowScore) {
+            body += `${agent} §9青チームの勝利！§f ${agent}`;
+        }
+        else if(this.yellowScore > this.blueScore) {
+            body += `${agent} §6黄チームの勝利！§f ${agent}`;
+        }
+        else {
+            body += `${agent} 引き分け！ ${agent}`;
+        }
+
+        body += `\n\n${coin} フラッグボーナス ${coin}\n`;
+
+        if(flagHoldTeam === null) {
+            body += `    なし\n\n`;
+        }
+        else if(flagHoldTeam === "blue") {
+            body += `    §9青チーム§f\n\n`;
+        }
+        else {
+            body += `    §6黄チーム§f\n\n`;
+        }
+
+        body += `${coin} ぬりスコア ${coin}\n\n    §9青: ${this.inkScores.blue}§f\n    §6黄: ${this.inkScores.yellow}§f\n\n`;
+        body += `${coin} 死亡ペナルティ ${coin}\n\n    §9青: ${this.deathScores.blue}§f\n    §6黄: ${this.deathScores.yellow}§f\n\n`;
+
 
         for (const player of world.getPlayers()) {
             try {
