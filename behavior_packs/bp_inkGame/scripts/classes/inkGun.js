@@ -1,5 +1,7 @@
 import { system } from "@minecraft/server";
 import { flagManager } from "../managers/flagManager";
+import { gamePlayerManager } from "../managers/gamePlayerManager";
+import LOCATION_UTILS from "../utils/locationUtils";
 
 class InkGun {
     constructor(config = {}) {
@@ -50,7 +52,7 @@ class InkGun {
             }
 
             const block = gamePlayer.player.dimension.getBlock(spawnPos);
-            if(block && block.typeId !== "minecraft:air" && block.typeId !== gamePlayer.teamColorBlockTypeId) {
+            if(block && block.typeId !== "minecraft:air") {
                 console.log(`[InkGun] Bullet hit a solid block at (${spawnPos.x.toFixed(2)}, ${spawnPos.y.toFixed(2)}, ${spawnPos.z.toFixed(2)})`);
                 system.clearRun(intervalId);
                 this.isShooting = false;
@@ -68,46 +70,43 @@ class InkGun {
 
     /** 敵プレイヤーへの命中判定 */
     checkHitEnemy(gamePlayer, position) {
-        const players = gamePlayer.player.dimension.getPlayers();
-
-        for (const p of players) {
-            if (p.id === gamePlayer.player.id) continue; // 自分は除外
-
-            const victimGamePlayer = gamePlayerManager.gamePlayers.get(p.id);
-            if (!victimGamePlayer) continue;
-
-            // 同じチームならスキップ
-            if (
-                (gamePlayerManager.BlueTeamPlayers.has(gamePlayer) && gamePlayerManager.BlueTeamPlayers.has(victimGamePlayer)) ||
-                (gamePlayerManager.YellowTeamPlayers.has(gamePlayer) && gamePlayerManager.YellowTeamPlayers.has(victimGamePlayer)) ||
-                victimGamePlayer.isRespawning   // リスポーン中も除外
-            ) continue;
-
-            // 命中距離判定
-            const victimPos = p.location;
-            const dx = victimPos.x - position.x;
-            const dy = victimPos.y - position.y;
-            const dz = victimPos.z - position.z;
-            const distance = Math.sqrt(dx * dx + dy * dy + dz * dz);
-
-            if (distance < 1.2) { // 命中判定距離
-                flagManager.onDamagedDropFlag(p);
-                this.onHitEnemy(p, gamePlayer);
-                break;
-            }
+        if(!gamePlayerManager.gamePlayers.has(gamePlayer.id)) {
+            return;
         }
+        
+        const offsetPos = {
+            x: position.x,
+            y: position.y - 0.7,    // shoot()で調整している分を戻す
+            z: position.z
+        }
+        const victimTeamPlayers = gamePlayer.team === "blue" ? gamePlayerManager.YellowTeamPlayers : gamePlayerManager.BlueTeamPlayers;
+
+        const players = gamePlayer.player.dimension.getPlayers( {
+            location: offsetPos,
+            maxDistance: 1.4
+        });
+
+        if(players.length === 0) {
+            return;
+        }
+
+        const victim = gamePlayerManager.gamePlayers.get(players[0].id);    // インスタンスを取得
+        if(victimTeamPlayers.has(victim)) {
+            this.onHitEnemy(victim, gamePlayer);
+        }
+
     }
 
     /** 命中時処理（ダメージ、ノックバックなど） */
     onHitEnemy(victim, attackerGamePlayer) {
         const dir = attackerGamePlayer.player.getViewDirection();
-        const knockbackVec = new Vector(dir.x * this.knockback, 0.3, dir.z * this.knockback);
 
-        victim.applyKnockback(knockbackVec.x, knockbackVec.z, this.knockback, 0.3);
-        victim.applyDamage(this.damage);
+        victim.player.applyKnockback({x: dir.x, z: dir.z}, this.knockback);
+        victim.player.applyDamage(this.damage);
+        flagManager.onDamagedDropFlag(victim);
 
         attackerGamePlayer.player.sendMessage(`🎯 ${victim.name} に命中！`);
-        victim.sendMessage(`💥 ${attackerGamePlayer.name} の攻撃を受けた！`);
+        victim.player.sendMessage(`💥 ${attackerGamePlayer.name} の攻撃を受けた！`);
     }
 
     
@@ -115,9 +114,9 @@ class InkGun {
 
 export const inkGun = new InkGun(
     {
-        knockback: 1,
+        knockback: 0.4,
         range: 7,
         consumeInkAmount: 10,
-        damage: 5
+        damage: 20
     }
 );
