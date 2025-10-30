@@ -103,7 +103,7 @@ export class GamePlayer {
     updatePerTick() {
         this.checkIsSneaking();
         this.checkInInk();
-        this.checkOutOfInk();
+        // this.checkOutOfInk();
         this.checkHasFlag();
         this.updateCurrentInkAmount();
         this.sprintSpeedMultiplier();
