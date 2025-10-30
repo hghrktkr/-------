@@ -27,6 +27,7 @@ world.afterEvents.worldLoad.subscribe(ev => {
 // プレイヤーがスポーンしたとき
 world.afterEvents.playerSpawn.subscribe(ev => {
     const { player } = ev;
+
     if(gameManager.gameState === "PLAYING" && gamePlayerManager.gamePlayers.has(player.id)) return;
     
     console.log(`Player spawned: ${player.name} (${player.id})`);
