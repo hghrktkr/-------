@@ -223,9 +223,12 @@ class GameManager {
     }
 
     enforceGameRule() {
-        for(const [gameRule, value] of Object.entries(gameRuleConfig)) {
-            if(GameRules[gameRule] && GameRules[gameRule] !== value) {
-                GameRules[gameRule] = value;
+        // コンフィグ内の各ゲームルールについて
+        for(const key in gameRuleConfig) {
+            // ゲームルールが存在して、かつコンフィグと実際のゲームルールの値が異なるときは、コンフィグにそろえる
+            if(world.gameRules[key] !== gameRuleConfig[key]) {
+                world.gameRules[key] = gameRuleConfig[key];
+                console.log(`game rule ${key} was changed to ${gameRuleConfig[key]}`);
             }
         }
 
