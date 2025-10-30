@@ -32,7 +32,7 @@ class InkGun {
             z: playerPos.z + dir.z
         }
         console.log(`[InkGun] ${gamePlayer.name} is shooting ink gun from (${startPos.x.toFixed(2)}, ${startPos.y.toFixed(2)}, ${startPos.z.toFixed(2)}) in direction (${dir.x.toFixed(2)}, ${dir.y.toFixed(2)}, ${dir.z.toFixed(2)})`);
-        gamePlayer.player.playSound("edu:gun_shoot", gamePlayer.player.location);
+        gamePlayer.player.playSound("edu.gun_shoot", gamePlayer.player.location);
 
         let counter = 0;
         const intervalId = system.runInterval(() => {

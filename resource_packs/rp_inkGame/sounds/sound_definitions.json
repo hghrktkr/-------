@@ -11,7 +11,7 @@
                     "load_on_low_memory": true,
                     "stream": true,
                     "is3D": false,
-                    "volume": 0.2
+                    "volume": 0.4
                 }
             ]
         },
