@@ -161,6 +161,7 @@ class GamePlayerManager {
         };
         for(let gamePlayer of this.gamePlayers.values()) {
             gamePlayer.clearEquipments();
+            gamePlayer.reset()
         }
     }
 

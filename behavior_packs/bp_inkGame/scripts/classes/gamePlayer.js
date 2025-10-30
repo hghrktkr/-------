@@ -202,6 +202,27 @@ export class GamePlayer {
         this.player.getComponent("minecraft:equippable").setEquipment(EquipmentSlot.Chest);
     }
 
+    reset() {
+        // 状態
+        this.team = null;               // チーム←TeamManager
+        this.teamColorEntityType = null; // チームのブロックの色のブロックエンティティ名
+        this.teamColorBlockType = null; // チームのブロックの色のブロック名
+        this.isAlive = true;
+        this.isInInk = false;           // 自チームのインクの上にいるか
+        this.isRespawning = false;      //  復活中か
+        this.isSneaking = false;
+        this.hasFlag = false;          // フラッグを持っているか
+        
+        // インク関連
+        this.canShoot = false;        // インクを撃てるか
+        this.currentInkAmount = 100;   // インクの量
+        this.maxInkAmount = 100;    // インクの最大量
+        this.reloadInkRate = 10;      // インクのリロード速度（1tickあたり）
+
+        // 個人スコア
+        this.deathCount = 0;
+    }
+
 
     consumeInk(inkAmount) {
         if(!this.canShoot) return false;
