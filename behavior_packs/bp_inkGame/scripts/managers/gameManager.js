@@ -89,7 +89,7 @@ class GameManager {
         this.timer = 0;
         gamePlayerManager.setCanShootFalse();
         gamePlayerManager.teleportTeamPlayers();
-        world.getDimension(playerSpawnPosition.spawnDimension).runCommand(`camera @a set minecraft:free pos 0 25 0 facing 0 24 0`); // カメラを俯瞰に
+        world.getDimension(playerSpawnPosition.spawnDimension).runCommand(`camera @a set minecraft:free pos 0 45 0 facing 0 24 0`); // カメラを俯瞰に
         
         broadcastTitle('しゅうりょう！！','結果集計中・・・');
         
